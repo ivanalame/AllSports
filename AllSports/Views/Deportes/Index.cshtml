@@ -1,0 +1,80 @@
+﻿@model IndexViewModel
+
+    <h1>TIPOS DE DEPORTE</h1>
+
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-grow-1">
+                        @foreach (var deporte in Model.Deportes)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-route-IdDeporte="@deporte.IdDeporte">@deporte.Nombre </a>
+                            </li>
+                        }
+                    </ul>
+
+
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <span class="nav-link">¿Te interesa la nutrición?</span>
+                        </li>
+                        <li class="nav-item">
+                            <select class="form-control">
+                                @foreach (var nutricion in Model.Nutricion)
+                                {
+                                    <option value="@nutricion.IdTipoNutricion">@nutricion.Nombre</option>
+                                }
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+    </header>
+
+    <h1>DEPORTES</h1>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <!-- Amplié el tamaño de la columna para que se ajuste mejor -->
+                <div class="card p-3 shadow">
+                    <label for="deporteSelect" class="form-label">Deportes: </label>
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var deporte in Model.DetalleDeporte)
+                            {
+                                <div class="col-md-2 mb-3">
+                                    <!-- Ajusté el tamaño de la columna para mostrar 6 elementos por fila -->
+                                    <!-- Añade margen inferior para separar las filas -->
+                                    <a asp-route-IdDetalleDeporte="@deporte.IdDetalleDeporte">
+                                        <div class="card p-4 shadow bg-primary text-white">
+                                            <!-- Ajusté el tamaño de la tarjeta -->
+                                            <label class="form-label">@deporte.Nombre</label>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+   @ViewData["Mensaje"]
+
+</body>
