@@ -1,4 +1,5 @@
 using AllSports.Data;
+using AllSports.Helpers;
 using AllSports.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton<HelperPathProvider>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAllSports");
 //RESOLVEMOS EL REPOSITORY CON TRANSIENT
 builder.Services.AddTransient<RepositoryDeportes>();
-
+builder.Services.AddTransient<RepositoryUsuarios>();
 
 builder.Services.AddDbContext<AllSportsContext>(options => options.UseSqlServer(connectionString));
 

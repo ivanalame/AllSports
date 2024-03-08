@@ -1,9 +1,17 @@
 ﻿@model IndexViewModel
 
-    <h1>TIPOS DE DEPORTE</h1>
+@* @{
+    
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+} *@
 
 
-<body>
+<h1 class="text-danger"> haodfaf</h1>
+
+<h1>TIPOS DE DEPORTE</h1>
+<div class="py-3">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
@@ -16,12 +24,10 @@
                         @foreach (var deporte in Model.Deportes)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-route-IdDeporte="@deporte.IdDeporte">@deporte.Nombre </a>
+                                <a class="nav-link text-dark" asp-action="DetalleDeporte" asp-controller="Deportes" asp-route-IdDeporte="@deporte.IdDeporte">@deporte.Nombre </a>
                             </li>
                         }
                     </ul>
-
-
 
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
@@ -46,35 +52,69 @@
     <h1>DEPORTES</h1>
 
     <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
+       
+            <div class="">
                 <!-- Amplié el tamaño de la columna para que se ajuste mejor -->
                 <div class="card p-3 shadow">
                     <label for="deporteSelect" class="form-label">Deportes: </label>
-                    <div class="container">
+                    <div class="">
                         <div class="row">
                             @foreach (var deporte in Model.DetalleDeporte)
                             {
-                                <div class="col-md-2 mb-3">
+                                <div class="col-3 mb-3">
                                     <!-- Ajusté el tamaño de la columna para mostrar 6 elementos por fila -->
                                     <!-- Añade margen inferior para separar las filas -->
-                                    <a asp-route-IdDetalleDeporte="@deporte.IdDetalleDeporte">
-                                        <div class="card p-4 shadow bg-primary text-white">
+                                    <a asp-action="CategoriasProducto" asp-controller="Deportes" asp-route-IdDetalleDeporte="@deporte.IdDetalleDeporte">
+                                        <div class="card-tex p-4 shadow bg-primary text-white">
                                             <!-- Ajusté el tamaño de la tarjeta -->
                                             <label class="form-label">@deporte.Nombre</label>
                                         </div>
                                     </a>
                                 </div>
                             }
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-   @ViewData["Mensaje"]
-
-</body>
+    @if (Model.Productos != null)
+    {
+        <h2>TODOS NUESTROS PRODUCTOS</h2>
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card p-3 shadow">
+                        <label for="deporteSelect" class="form-label">Productos:</label>
+                        <div class="container">
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <!-- Utilizamos row-cols-md-3 para que haya una fila de 3 columnas en dispositivos medianos (md) y una columna en dispositivos pequeños -->
+                                @foreach (var producto in Model.Productos)
+                                {
+                                    <div class="col mb-4">
+                                        <!-- Eliminamos el estilo width: 400px; del div.card para que el ancho sea automático -->
+                                        <div class="card p-4 shadow bg-light">
+                                            @if (producto.Imagen != null)
+                                            {
+                                                <img src="~/Images/@producto.Imagen" class="card-img-top w-100 mx-auto d-block" alt="@producto.Nombre">
+                                            }
+                                            <div class="card-body">
+                                                <h5 class="card-title">@producto.Nombre</h5>
+                                                <p class="card-text">@producto.Descripcion</p>
+                                                <p class="card-text">Precio: $@producto.Precio</p>
+                                                <a asp-controller="Deportes" asp-action="DetailProducto" asp-route-IdProducto="@producto.IdProducto" class="btn btn-primary">Mas Info</a>
+                                                <a class="btn btn-primary  mt-2">Agregar a la cesta</a>
+                                                <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+ 

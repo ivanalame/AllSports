@@ -28,12 +28,40 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="Index">AllSports</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UploadFiles" asp-action="SubirFichero">SubirFichero</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="InsertProducto">INSERTPRODUCTO</a>
+                        </li>
+                    </ul>
+                    <!-- Los dos últimos elementos movidos a la derecha -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <div class="dropdown">
+                                <div>
+                                    <img class="align-content-center" src="~/Images/cuenta.jpg" alt="Mi cuenta" />
+                                    <button class="dropbtn">Mi cuenta</button>
+                                </div>
+                              
+                                <div class="dropdown-content">
+                                    <a class="dropdown-item"  asp-controller="Deportes" asp-action="LogIn">Iniciar Sesión</a>
+                                    <a class="dropdown-item"  asp-controller="Deportes" asp-action="Register">Registrarse</a>
+                                </div>
+                            </div> 
+                        </li>
+
+                        <li class="nav-item">
+                            <img class="align-content-center" src="~/Images/Carro.jpg" />
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="">Mi Cesta</a>
+                        </li>
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -48,5 +76,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
+ 
+
+   
 </body>
 </html>

@@ -1,0 +1,67 @@
+﻿@model List<Producto>
+
+<h1>CATEGORIAS PRODUCTOS</h1>
+<style>
+
+    .wobble-horizontal-top .card-img-top {
+        transition: transform 0.8s ease-in-out;
+    }
+
+    /* Aplica la animación al elemento cuando el cursor está encima */
+    .wobble-horizontal-top:hover .card-img-top {
+        transform: translateX(-15px) rotate(-5deg);
+    }
+</style>
+
+<script>
+    // JavaScript para aplicar la animación al elemento cuando el cursor está encima
+    document.querySelectorAll('.producto-card').forEach(item => {
+        item.addEventListener('mouseover', () => {
+            item.querySelector('.card-img-top').classList.add('wobble-horizontal-top');
+        });
+
+        item.addEventListener('mouseout', () => {
+            item.querySelector('.card-img-top').classList.remove('wobble-horizontal-top');
+        });
+    });
+</script>
+
+
+@if (Model != null)
+{
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card p-3 shadow">
+                    <label for="deporteSelect" class="form-label">Productos:</label>
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <!-- Utilizamos row-cols-md-3 para que haya una fila de 3 columnas en dispositivos medianos (md) y una columna en dispositivos pequeños -->
+                            @foreach (var producto in Model)
+                            {
+                                <div class="col mb-4">
+                                    <!-- Eliminamos el estilo width: 400px; del div.card para que el ancho sea automático -->
+                                    <div class="card p-4 shadow bg-light">
+                                        @if (producto.Imagen != null)
+                                        {
+                                            <img src="~/Images/@producto.Imagen" class="card-img-top w-100 mx-auto d-block" alt="@producto.Nombre">
+                                        }
+                                        <div class="card-body">
+                                            <h5 class="card-title">@producto.Nombre</h5>
+                                            <p class="card-text">@producto.Descripcion</p>
+                                            <p class="card-text">Precio: $@producto.Precio</p>
+                                            <a asp-controller="Deportes" asp-action="DetailProducto" asp-route-IdProducto="@producto.IdProducto" class="btn btn-primary">Mas Info</a>
+                                            <a class="btn btn-primary  mt-2">Agregar a la cesta</a>
+                                            <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
