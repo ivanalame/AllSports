@@ -43,9 +43,14 @@ namespace AllSports.Repositories
                            select datos;
             return consulta.ToList();
         }
-
+        //GET TODAS LAS CATEGORIAS
+        public List<CategoriaProduto> GetAllCategorias()
+        {
+            var consulta = from datos in this.context.CategoriaProducto select datos;
+            return consulta.ToList();
+        }
         //GET CATEGORIOPRODUCTO POR ID
-         public List<CategoriaProduto> GetCategoriasProducoPorId(int IdDetalle)
+        public List<CategoriaProduto> GetCategoriasProducoPorId(int IdDetalle)
         {
                  var consulta = from datos in this.context.CategoriaProducto
                                           where datos.IdDetalleDeporte == IdDetalle
@@ -102,7 +107,7 @@ namespace AllSports.Repositories
         }
 
         //Get producto por id Producto 
-        public Producto GetProductoById(int IdProducto)
+        public async Task <Producto> GetProductoByIdAsync(int IdProducto)
         {
             var consulta = from datos in this.context.Productos
                            where datos.IdProducto == IdProducto
@@ -112,11 +117,19 @@ namespace AllSports.Repositories
         }
 
         //GET TODAS LAS VALORACIONES DE UN PRODUCTO 
-        public List<Valoracion> GetValoracionById(int IdProducto)
+        public List<ValoracionConNombreUsuario> GetValoracionById(int IdProducto)
         {
-            var consulta = from datos in this.context.Valoraciones
-                           where datos.IdPrdocucto == IdProducto
-                           select datos;
+            var consulta = from valoracion in this.context.Valoraciones
+                           join usuario in this.context.Usuarios on valoracion.IdUsuario equals usuario.IdUsuario
+                           where valoracion.IdPrdocucto == IdProducto
+                           select new ValoracionConNombreUsuario
+                           {
+                               IdValoracion = valoracion.IdValoracion,
+                               IdUsuario = valoracion.IdUsuario,
+                               NombreUsuario = usuario.Email,
+                               Puntuacion = valoracion.Puntuacion,
+                               Comentario = valoracion.Comentario
+                           };
 
             return consulta.ToList();
         }
@@ -129,6 +142,23 @@ namespace AllSports.Repositories
 
 
             return consulta.ToList();
+        }
+
+        //GET PRODUCTOS SESSION
+        public async Task<List<Producto>> GetProductosSessionAsync(List<int> ids)
+        {
+            var consulta = from datos in this.context.Productos
+                           where ids.Contains(datos.IdProducto)
+                           select datos;
+
+            if(consulta.Count() == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return await consulta.ToListAsync();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AllSports.Models;
+﻿using AllSports.Extensions;
+using AllSports.Models;
 using AllSports.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +15,29 @@ namespace AllSports.Controllers
             this._repo = _repo;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idProducto)
         {
+
+            if (idProducto != null)
+            {
+                List<int> idsProductos;
+
+                if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
+                {
+                    //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
+                    idsProductos = new List<int>();
+                }
+                else
+                {
+                    idsProductos =  HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
+                }
+               idsProductos.Add(idProducto.Value);
+                //GUARDAMOS LA COLECCION EN SESSION
+                HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
+                ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count ;
+            }
+
+
             List<Deporte> deportes = repo.GetDeportes();
             List<Nutricion> nutricion = repo.GetNutricion();
             List<DetalleDeporte> detalleDeportes = repo.GetDetalleDeportes();
@@ -45,25 +67,97 @@ namespace AllSports.Controllers
             return View(Categorias);
         }
 
-        public IActionResult Productos(int IdCategoriaProducto)
+        public IActionResult Productos(int IdCategoriaProducto, int? idProducto)
         {
+
+            if (idProducto != null)
+            {
+                List<int> idsProductos;
+
+                if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
+                {
+                    //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
+                    idsProductos = new List<int>();
+                }
+                else
+                {
+                    idsProductos = HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
+                }
+                idsProductos.Add(idProducto.Value);
+                //GUARDAMOS LA COLECCION EN SESSION
+                HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
+                ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count;
+            }
+
             List<Producto> Productos = this.repo.GetProductosById(IdCategoriaProducto);
             return View(Productos);
         }
 
-        public IActionResult DetailProducto(int IdProducto)
+        public async Task <IActionResult> DetailProducto(int IdProducto)
         {
-            List<Valoracion> Valoraciones = this.repo.GetValoracionById(IdProducto);
-            Producto producto = this.repo.GetProductoById(IdProducto);
+
+            if (IdProducto != null)
+            {
+                List<int> idsProductos;
+
+                if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
+                {
+                    //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
+                    idsProductos = new List<int>();
+                }
+                else
+                {
+                    idsProductos = HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
+                }
+                idsProductos.Add(IdProducto);
+                //GUARDAMOS LA COLECCION EN SESSION
+                HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
+                ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count;
+            }
+
+            List<ValoracionConNombreUsuario> Valoraciones = this.repo.GetValoracionById(IdProducto);
+            Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             ViewData["Producto"] = producto;
             return View(Valoraciones);
         }
 
-        public IActionResult Compra(int IdProducto)
+        public async Task <IActionResult> Compra(int IdProducto)
         {
-            Producto producto = this.repo.GetProductoById(IdProducto);
+            Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             return View(producto);
         }
+
+        #region SESSION CARRITO
+        //public async Task <IActionResult> SessionCarrito(int? idProducto)
+        //{
+           
+        //    return View();
+        //}
+
+        public async Task<IActionResult> ProductosAlmacenadosCarrito(int? ideliminar)
+        {
+            List<int> idsProductos = HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
+
+            if (idsProductos!=null)
+            {
+                if (ideliminar!=null)
+                {
+                    idsProductos.Remove(ideliminar.Value);
+                    if(idsProductos.Count == 0)
+                    {
+                        HttpContext.Session.Remove("IDSPRODUCTOS");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
+                    }
+                }
+                List<Producto> productos = await this.repo.GetProductosSessionAsync(idsProductos);
+                return View(productos);
+            }
+            return View();
+        }
+        #endregion
 
         #region  login y register
         public IActionResult LogIn()
@@ -71,6 +165,7 @@ namespace AllSports.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> LogIn(string email, string password)
         {
@@ -93,6 +188,7 @@ namespace AllSports.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Register
             (string nombre, int nif, string email, string password, string apellidos)
@@ -117,6 +213,8 @@ namespace AllSports.Controllers
         #region insert producto
         public IActionResult InsertProducto()
         {
+            var categorias = this.repo.GetAllCategorias();
+            ViewData["CATEGORIAS"] = categorias;
             return View();
         }
 
@@ -132,7 +230,8 @@ namespace AllSports.Controllers
             {
                 ViewData["MENSAJE"] = "asigne imagen";
             }
-
+            var categorias = this.repo.GetAllCategorias();
+            ViewData["CATEGORIAS"] = categorias;
             return View();
         }
         #endregion

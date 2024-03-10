@@ -54,6 +54,7 @@
     <div class="container">
         <h2>Registro</h2>
         <form  method="post">
+            @Html.AntiForgeryToken()
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 

@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    List<int> idsproductos =
+    Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
+}
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,13 +35,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="Index">AllSports</a>
                         </li>
-                        <li class="nav-item">
+                       @*  <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="UploadFiles" asp-action="SubirFichero">SubirFichero</a>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="InsertProducto">INSERTPRODUCTO</a>
                         </li>
                     </ul>
+
                     <!-- Los dos últimos elementos movidos a la derecha -->
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
@@ -51,9 +59,15 @@
                             </div> 
                         </li>
 
-                        <li class="nav-item">
+                       
+                              <li class="nav-item">
                             <img class="align-content-center" src="~/Images/Carro.jpg" />
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="">Mi Cesta</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="ProductosAlmacenadosCarrito">Mi Cesta:
+                                @if (idsproductos != null)
+                                {
+                                      @idsproductos.Count
+                                }
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -67,11 +81,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - AllSports - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+ 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

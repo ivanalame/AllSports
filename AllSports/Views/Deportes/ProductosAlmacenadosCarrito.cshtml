@@ -1,0 +1,72 @@
+﻿@model List<Producto>
+
+
+
+<h1>PRODUCTOS AÑADIDOS AL CARRITO</h1>
+
+<p>
+    <a asp-controller="Deportes" asp-action="Index">
+        VOLVER A HOME
+    </a>
+</p>
+
+@if (Context.Session.GetString("IDSPRODUCTOS") == null)
+{
+    <h2 style="color:red">NO EXISTEN PRODUCTOS EN EL CARRITO</h2>
+}
+
+@if(Model !=null)
+{
+    <div style="max-height: 400px; overflow-y: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Marca</th>
+                    <th>Descripción</th>
+                    <th>Talla</th>
+                    <th>Imagen</th>
+                    <th>Descripción Larga</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pro in Model)
+                {
+                    <tr>
+                        <td>@pro.Nombre</td>
+                        <td>@pro.Precio,00€</td>
+                        <td>@pro.Marca</td>
+                        <td>@pro.Descripcion</td>
+                        <td>
+                            @if (pro.Talla == 1)
+                            {
+                                <span>S</span>
+                            }
+                            else if (pro.Talla == 2)
+                            {
+                                <span>M</span>
+                            }
+                            else if (pro.Talla == 3)
+                            {
+                                <span>L</span>
+                            }
+                            else if (pro.Talla == 4)
+                            {
+                                <span>XL</span>
+                            }
+                        </td>
+                        <td><img src="~/Images/@pro.Imagen" alt="Imagen del producto" width="100" height="100"></td>
+                        <td>@pro.Descripcion_Larga</td>
+                        <td>
+                            <a class="btn btn-danger" asp-controller="Deportes" asp-action="ProductosAlmacenadosCarrito" asp-route-ideliminar="@pro.IdProducto">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

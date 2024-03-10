@@ -1,5 +1,9 @@
 ﻿@model List<Producto>
-
+@{
+ List<int>
+    idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
+}
+ 
 <h1>CATEGORIAS PRODUCTOS</h1>
 <style>
 
@@ -49,9 +53,36 @@
                                         <div class="card-body">
                                             <h5 class="card-title">@producto.Nombre</h5>
                                             <p class="card-text">@producto.Descripcion</p>
-                                            <p class="card-text">Precio: $@producto.Precio</p>
+                                            <p class="card-text">Precio: @producto.Precio,00€</p>
                                             <a asp-controller="Deportes" asp-action="DetailProducto" asp-route-IdProducto="@producto.IdProducto" class="btn btn-primary">Mas Info</a>
-                                            <a class="btn btn-primary  mt-2">Agregar a la cesta</a>
+                                            @if (idsproductos == null)
+                                            {
+                                                <a class="btn btn-info" asp-controller="Deportes"
+                                                   asp-action="Productos"
+                                                   asp-route-idProducto="@producto.IdProducto"
+                                                   asp-route-IdCategoriaProducto="@producto.IdCategoriaProducto">
+
+                                                    Agreagar al carrito
+
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                if (idsproductos.Contains(producto.IdProducto))
+                                                {
+                                                    <h4 style="color:deepskyblue">Este producto ya lo tienes en el carrito</h4>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-info" asp-controller="Deportes"
+                                                       asp-action="Productos"
+                                                       asp-route-idProducto="@producto.IdProducto"
+                                                        asp-route-IdCategoriaProducto="@producto.IdCategoriaProducto">
+                                                        Agreagar al carritio
+
+                                                    </a>
+                                                }
+                                            }
                                             <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
                                         </div>
                                     </div>

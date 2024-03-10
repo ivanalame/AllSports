@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSession();
 builder.Services.AddSingleton<HelperPathProvider>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAllSports");
 //RESOLVEMOS EL REPOSITORY CON TRANSIENT
@@ -15,6 +15,7 @@ builder.Services.AddTransient<RepositoryDeportes>();
 builder.Services.AddTransient<RepositoryUsuarios>();
 
 builder.Services.AddDbContext<AllSportsContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 
@@ -32,7 +33,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
