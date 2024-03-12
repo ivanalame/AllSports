@@ -1,8 +1,26 @@
 ﻿@model List<ValoracionConNombreUsuario>
 @{
     Producto producto = ViewData["Producto"] as Producto;
+    List<int> idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
 }
+@section Scripts {
 
+    <script>
+
+        $(document).ready(function () {
+
+            $("#botonloadvaloraciones").click(function () {
+               
+                $("#contenidovaloraciones").load("/Deportes/_Valoraciones");
+
+            })
+
+        })
+
+    </script>
+
+}
+<h2> @ViewData["MENSAJE"]</h2>
 <h1>Detalles Del Producto</h1>
 
 @if (producto != null)
@@ -22,23 +40,39 @@
         </div>
     </div>
 
-    <a asp-route-IdProducto="@producto.IdProducto">
-        <div class="text-center mt-2">
-           
+    @if (idsproductos == null)
+    {
+        <a class="btn btn-info" asp-controller="Deportes"
+           asp-action="Index"
+           asp-route-idProducto="@producto.IdProducto">
+
+            Agreagar al carrito
+
+        </a>
+    }
+    else
+    {
+        if (idsproductos.Contains(producto.IdProducto))
+        {
+            <h4 style="color:deepskyblue">Este producto ya lo tienes en el carrito</h4>
+        }
+        else
+        {
             <a class="btn btn-info" asp-controller="Deportes"
-               asp-action="DetailProducto"
+               asp-action="Index"
                asp-route-idProducto="@producto.IdProducto">
 
                 Agreagar al carrito
 
             </a>
+        }
+    }
+           <button class="btn btn-success">Comprar</button>
 
-            <button class="btn btn-success">Comprar</button>
+            <button id="botonloadvaloraciones" data-idProducto="@producto.IdProducto" class="btn btn-success">Valorar Producto</button>
+            <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
 
-            <button class="btn btn-success">Valorar Producto</button>
-        </div>
-    </a>
-}
+  }
 @if (Model != null && Model.Count > 0)
 {
     <div class="row mt-4">

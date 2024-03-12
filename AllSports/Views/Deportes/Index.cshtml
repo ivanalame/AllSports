@@ -7,47 +7,111 @@
 }
 
 
+<style>
+    .accordion {
+        width: 80%; /* Ancho del acordeón */
+        margin: 0 auto; /* Margen automático a izquierda y derecha para centrar */
+        position: relative;
+        overflow: hidden;
+    }
 
+
+    .slides {
+        display: flex;
+        transition: transform 1s ease;
+    }
+
+        .slides input {
+            display: none;
+        }
+
+    .slide1, .slide2, .slide3 {
+        width: 100%;
+        flex: 0 0 100%;
+    }
+
+        .slide1 img, .slide2 img, .slide3 img {
+            width: 100%;
+            height: auto;
+        }
+
+    .selectors {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+    }
+
+        .selectors label {
+            width: 15px;
+            height: 15px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+    #slide1:checked ~ .slides {
+        transform: translateX(0);
+    }
+
+    #slide2:checked ~ .slides {
+        transform: translateX(-100%);
+    }
+
+    #slide3:checked ~ .slides {
+        transform: translateX(-200%);
+    }
+
+    #slide1:checked ~ .selectors label:nth-child(1),
+    #slide2:checked ~ .selectors label:nth-child(2),
+    #slide3:checked ~ .selectors label:nth-child(3) {
+        background-color: #555;
+    }
+</style>
  <h2 style="color:red">@ViewData["MENSAJE"]</h2>
+
+<div class="accordion">
+    <input type="radio" name="slide" id="slide1" checked>
+    <input type="radio" name="slide" id="slide2">
+    <input type="radio" name="slide" id="slide3">
+
+    <div class="slides">
+        <div class="slide1">
+            <img src="~/Images/BalonNaranja.jpg" alt="Imagen 1" class="slide-img w-25">
+        </div>
+        <div class="slide2">
+            <img src="~/Images/BañadorArena.jpg" alt="Imagen 2" class="slide-img w-25">
+        </div>
+        <div class="slide3">
+            <img src="~/Images/Bayern.jpg" alt="Imagen 3" class="slide-img w-25">
+        </div>
+    </div>
+
+    <div class="selectors">
+        <label for="slide1"></label>
+        <label for="slide2"></label>
+        <label for="slide3"></label>
+    </div>
+</div>
+
 
 <h1>TIPOS DE DEPORTE</h1>
 <div class="py-3">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav flex-grow-1">
-                        @foreach (var deporte in Model.Deportes)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="DetalleDeporte" asp-controller="Deportes" asp-route-IdDeporte="@deporte.IdDeporte">@deporte.Nombre </a>
-                            </li>
-                        }
-                    </ul>
-
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <span class="nav-link">¿Te interesa la nutrición?</span>
-                        </li>
-                        <li class="nav-item">
-                            <select class="form-control">
-                                @foreach (var nutricion in Model.Nutricion)
-                                {
-                                    <option value="@nutricion.IdTipoNutricion">@nutricion.Nombre</option>
-                                }
-                            </select>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-
-    </header>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <span class="nav-link">¿Te interesa la nutrición?</span>
+        </li>
+        <li class="nav-item">
+            <select class="form-control">
+                @foreach (var nutricion in Model.Nutricion)
+                {
+                    <option value="@nutricion.IdTipoNutricion">@nutricion.Nombre</option>
+                }
+            </select>
+        </li>
+    </ul>
 
     <h1>DEPORTES</h1>
 

@@ -127,10 +127,26 @@ namespace AllSports.Controllers
             return View(producto);
         }
 
+        public async Task<IActionResult> _Valoraciones(int? idProducto)
+        {
+            if (idProducto != null)
+            {
+   ViewData["IDPRODUCTO"] = idProducto;
+            }
+         
+            return PartialView("_Valoraciones");
+        }
+        [HttpPost]
+        public async Task<IActionResult> _Valoraciones(Valoracion valoracion)
+        {
+            await this.repo.InsertValoracion(valoracion.IdUsuario, valoracion.IdProducto, valoracion.Comentario, valoracion.Puntuacion);
+            ViewData["MENSAJE"] = "Valoracion Añadida";
+         return PartialView("_Valoraciones");
+        }
         #region SESSION CARRITO
         //public async Task <IActionResult> SessionCarrito(int? idProducto)
         //{
-           
+
         //    return View();
         //}
 

@@ -95,6 +95,24 @@ namespace AllSports.Repositories
 
             await this.context.SaveChangesAsync();
         }
+        //INSERT VALORACION
+        public async Task InsertValoracion(int idUsuario, int idProducto, string comentario, int puntuacion)
+        {
+            int maxid = await this.context.Valoraciones.MaxAsync(z => z.IdValoracion) + 1;
+
+            Valoracion valoracion = new Valoracion();
+
+
+            valoracion.IdValoracion = maxid;
+            valoracion.IdUsuario = idUsuario;
+            valoracion.IdProducto = idProducto;    
+            valoracion.Comentario   = comentario;
+            valoracion.Puntuacion = puntuacion;
+
+            this.context.Valoraciones.Add(valoracion);
+
+            await this.context.SaveChangesAsync();
+        }
         //Get Productos de una categoria
 
         public List<Producto> GetProductosById(int IdCategoriaProducto)
@@ -121,7 +139,7 @@ namespace AllSports.Repositories
         {
             var consulta = from valoracion in this.context.Valoraciones
                            join usuario in this.context.Usuarios on valoracion.IdUsuario equals usuario.IdUsuario
-                           where valoracion.IdPrdocucto == IdProducto
+                           where valoracion.IdProducto == IdProducto
                            select new ValoracionConNombreUsuario
                            {
                                IdValoracion = valoracion.IdValoracion,

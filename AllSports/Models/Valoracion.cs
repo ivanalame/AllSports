@@ -12,7 +12,7 @@ namespace AllSports.Models
         [Column("IdUsuario")]
         public int IdUsuario { get; set; }
         [Column("IdProducto")]
-        public int IdPrdocucto { get; set; }
+        public int IdProducto { get; set; }
         [Column("Comentario")]
         public string Comentario { get; set; }
         [Column("Puntuacion")]

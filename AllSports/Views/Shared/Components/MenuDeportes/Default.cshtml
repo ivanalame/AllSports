@@ -1,0 +1,32 @@
+﻿@model List<Deporte>
+
+
+    
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-grow-1">
+                    @foreach (var deporte in Model)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="DetalleDeporte" asp-controller="Deportes" asp-route-IdDeporte="@deporte.IdDeporte">@deporte.Nombre </a>
+                        </li>
+                    }
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="index">Home AllSports</a>
+            </li>
+
+              <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="insertproducto">insertproducto</a>
+            </li>
+                </ul>
+
+               
+            </div>
+        </div>
+
+
+
