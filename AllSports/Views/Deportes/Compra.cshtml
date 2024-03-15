@@ -1,39 +1,82 @@
 ﻿@model Producto
 
 <h1>Realizar Compra</h1>
+<script>
+    // Espera a que el documento esté completamente cargado antes de ejecutar el script
+    document.addEventListener("DOMContentLoaded", function () {
+        // Añade un evento "click" al botón con el id "verificarCodigo"
+        document.getElementById("verificarCodigo").addEventListener("click", function () {
+            // Obtiene el elemento del campo de entrada de descuento por su id
+            var descuentoInput = document.getElementById("Descuento");
+            // Obtiene el elemento del div de nuevo precio por su id
+            var nuevoPrecioDiv = document.getElementById("nuevoPrecio");
+            // Obtiene el valor del campo de entrada de descuento, eliminando los espacios en blanco al principio y al final
+            var descuento = descuentoInput.value.trim();
 
-<form method="post">
-    <div class="form-group">
+            // Comprueba si el valor del descuento es igual a "DESCUENTAZO"
+            if (descuento === "DESCUENTAZO") {
+                // Si el descuento es válido, muestra el div de nuevo precio
+                nuevoPrecioDiv.style.display = "block";
+            } else {
+                // Si el descuento no es válido, muestra una alerta con un mensaje
+                alert("Descuento no válido");
+                // Oculta el div de nuevo precio
+                nuevoPrecioDiv.style.display = "none";
+            }
+        });
+    });
+</script>
 
-       @*  IdCompra Auotincrementable y albaran ?
- *@
-    
+<form method="post" class="my-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="~/Images/@Model.Imagen" class="img-fluid rounded w-100 h-100" alt="Producto">
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Producto">Producto</label>
+                <input type="text" class="form-control" value="@Model.Nombre" id="@Model.IdProducto" name="IdProducto" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Precio">Precio</label>
+                <input type="text" class="form-control" value="@Model.Precio" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Cantidad">Cantidad</label>
+                <input type="number" class="form-control" id="Cantidad" name="Cantidad" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="FechaCompra">Fecha de Compra</label>
+                <input type="datetime-local" class="form-control" id="FechaCompra" name="FechaCompra" required>
+            </div>
 
-        <label for="IdProducto">Producto</label>
-        <!-- Mostramos el nombre del producto y su precio en la lista desplegable -->
-        <select class="form-control" id="IdProducto" name="IdProducto">
-            <option value="">Selecciona un producto</option>
-            <!-- Utilizamos las propiedades del objeto en Model para mostrar la información -->
-            <option value="@Model.IdProducto">@Model.Nombre - Precio: $@Model.Precio</option>
-        </select>
+            <div class="form-group">
+                <label for="Descuento">Descuento (%)</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="Descuento" name="Descuento" required>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary" id="verificarCodigo">Verificar código</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="nuevoPrecio" style="display: none;">
+                <label for="Precio">Precio Nuevo</label>
+                @{
+                   
+                    var descuento = Model.Precio * 0.15;
+                    
+                    var nuevoPrecio = Model.Precio - descuento;
+                }
+                <input type="text" class="form-control" value="@nuevoPrecio" readonly>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Realizar Compra</button>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Cantidad">Cantidad</label>
-        <input type="number" class="form-control" id="Cantidad" name="Cantidad" min="1" required>
-    </div>
-
-    <div>
-        <input type="datetime-local" class="form-control" id="FechaCompra" name="FechaCompra" required>
-    </div>
-    
-
-   
-    <div class="form-group">
-        <label for="Descuento">Descuento (%)</label>
-        <input type="number" class="form-control" id="Descuento" name="Descuento" min="0" max="100" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Realizar Compra</button>
 </form>
+
+
 
 <script>
     // Obtener el elemento del campo de entrada por su ID
