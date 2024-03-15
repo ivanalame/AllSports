@@ -68,5 +68,9 @@
                 }
             </tbody>
         </table>
+        @if(Context.Session.GetString("SUMAPRECIOS")!=null){
+              <h1>Precio Total:@Context.Session.GetString("SUMAPRECIOS"),00€ </h1>
+        }
+      
     </div>
 }

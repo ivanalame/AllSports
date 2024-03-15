@@ -15,13 +15,21 @@ namespace AllSports.Controllers
             this._repo = _repo;
         }
 
-        public async Task<IActionResult> Index(int? idProducto)
+        public async Task<IActionResult> Index(int? idProducto, int? precio)
         {
 
-            if (idProducto != null)
+            if (idProducto != null && precio!=null)
             {
                 List<int> idsProductos;
+                int sumaPrecios = 0;
 
+                if (HttpContext.Session.GetString("SUMAPRECIOS") != null)
+                {
+                    //recupero de session el precio 
+                    sumaPrecios = int.Parse(HttpContext.Session.GetString("SUMAPRECIOS"));
+                }
+                sumaPrecios += precio.Value;
+                HttpContext.Session.SetString("SUMAPRECIOS", sumaPrecios.ToString());
                 if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
                 {
                     //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
@@ -118,6 +126,7 @@ namespace AllSports.Controllers
             List<ValoracionConNombreUsuario> Valoraciones = this.repo.GetValoracionById(IdProducto);
             Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             ViewData["Producto"] = producto;
+          
             return View(Valoraciones);
         }
 
@@ -131,7 +140,7 @@ namespace AllSports.Controllers
         {
             if (idProducto != null)
             {
-   ViewData["IDPRODUCTO"] = idProducto;
+                  ViewData["IDPRODUCTO"] =  idProducto.Value;
             }
          
             return PartialView("_Valoraciones");

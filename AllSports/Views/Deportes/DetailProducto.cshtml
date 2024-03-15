@@ -6,21 +6,27 @@
 @section Scripts {
 
     <script>
-
         $(document).ready(function () {
-
             $("#botonloadvaloraciones").click(function () {
-               
-                $("#contenidovaloraciones").load("/Deportes/_Valoraciones");
-
-            })
-
-        })
-
+                var idProducto = @producto.IdProducto;
+                $.ajax({
+                    url: '/Deportes/_Valoraciones', 
+                    type: 'GET', // O 'POST' según lo que necesites
+                    data: { idProducto: idProducto },
+                    success: function (response) {
+                        // Inserta el resultado (vista parcial) en el contenedor deseado
+                        $("#contenidovaloraciones").html(response);
+                    },
+                    error: function () {
+                        console.error("Error al cargar _Valoraciones");
+                    }
+                });
+            });
+        });
     </script>
 
 }
-<h2> @ViewData["MENSAJE"]</h2>
+
 <h1>Detalles Del Producto</h1>
 
 @if (producto != null)
@@ -69,7 +75,7 @@
     }
            <button class="btn btn-success">Comprar</button>
 
-            <button id="botonloadvaloraciones" data-idProducto="@producto.IdProducto" class="btn btn-success">Valorar Producto</button>
+    <button id="botonloadvaloraciones"  class="btn btn-success">Valorar Producto</button>
             <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
 
   }
