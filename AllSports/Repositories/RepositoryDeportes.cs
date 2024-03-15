@@ -1,8 +1,27 @@
 ﻿using AllSports.Data;
 using AllSports.Helpers;
 using AllSports.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
+#region Views and procedures
+//create view  V_PRODUCTOS
+//AS
+//	SELECT CAST(
+//	row_number() over(order by IdProducto)as int) as posicion,
+//    isnull(IdProducto, 0) as IdProducto, Nombre, Precio, Marca, Descripcion, IdTalla, Imagen, IdCategoriaProducto, DescLarga 
+//	from PRODUCTOS
+//GO
+//CREATE PROCEDURE SP_PRODUCTOS (@posicion int, @registros int out)
+//as
+//select @registros = COUNT(IdProducto) from PRODUCTOS
+
+//select IdProducto, Nombre, PRECIO, MARCA, DESCRIPCION, IDTALLA, IMAGEN, IDCATEGORIAPRODUCTO, DESCLARGA
+//FROM V_PRODUCTOS
+//where posicion >=@posicion and posicion< (@posicion+6)
+//go
+#endregion
 namespace AllSports.Repositories
 {
     public class RepositoryDeportes
@@ -178,5 +197,28 @@ namespace AllSports.Repositories
                 return await consulta.ToListAsync();
             }
         }
+
+
+        #region paginacion
+        public async Task<ModelPaginacionProductos> GetProductosPaginacion(int posicion)
+        {
+            string sql = "SP_PRODUCTOS @posicion, @registros out";
+            SqlParameter pamPosicion = new SqlParameter("@posicion", posicion);
+            SqlParameter pamRegistros = new SqlParameter("@registros", -1);
+            pamRegistros.Direction = System.Data.ParameterDirection.Output;
+
+            var consulta = this.context.Productos.FromSqlRaw(sql, pamPosicion, pamRegistros);
+
+            List<Producto> productos = await consulta.ToListAsync();
+            int registros = (int)pamRegistros.Value;
+
+            return new ModelPaginacionProductos
+            {
+                NumeroRegistros = registros,
+                Productos = productos
+            };
+        }
+
+        #endregion
     }
 }

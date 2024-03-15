@@ -4,6 +4,12 @@
 
     Layout = "~/views/shared/_layout.cshtml";
     List<int> idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
+    int registros = 0;
+    int numeroPagina = 1;
+    if (ViewData["REGISTROS"] != null)
+    {
+        registros = (int)ViewData["REGISTROS"];
+    }
 }
 
 
@@ -156,6 +162,25 @@
                                         </div>
                                     </div>
                                 }
+                                <div>
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item list-group-item-warning">
+                                            <a asp-controller="Deportes"
+                                               asp-action="Index"
+                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] - 6)">
+                                                atras
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item list-group-item-warning">
+                                            <a asp-controller="Deportes"
+                                               asp-action="Index"
+                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] + 6)">
+                                                >>>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -15,8 +15,9 @@ namespace AllSports.Controllers
             this._repo = _repo;
         }
 
-        public async Task<IActionResult> Index(int? idProducto, int? precio)
+        public async Task<IActionResult> Index(int? idProducto, int? precio, int? posicion)
         {
+           
 
             if (idProducto != null && precio!=null)
             {
@@ -45,11 +46,18 @@ namespace AllSports.Controllers
                 ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count ;
             }
 
+            if(posicion == null)
+            {
+                posicion = 1;
+            }
+            ModelPaginacionProductos model = await this.repo.GetProductosPaginacion(posicion.Value);
+            ViewData["REGISTROS"] = model.NumeroRegistros;
+            ViewData["POSICIONACTUAL"] = posicion.Value;
 
             List<Deporte> deportes = repo.GetDeportes();
             List<Nutricion> nutricion = repo.GetNutricion();
             List<DetalleDeporte> detalleDeportes = repo.GetDetalleDeportes();
-            List<Producto> productos =  await repo.GetAllProductos();
+            List<Producto> productos = model.Productos;
 
             var viewModel = new IndexViewModel
             {
