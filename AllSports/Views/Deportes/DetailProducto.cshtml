@@ -49,7 +49,7 @@
     @if (idsproductos == null)
     {
         <a class="btn btn-info" asp-controller="Deportes"
-           asp-action="Index"
+           asp-action="DetailProducto"
            asp-route-idProducto="@producto.IdProducto">
 
             Agreagar al carrito
@@ -65,7 +65,7 @@
         else
         {
             <a class="btn btn-info" asp-controller="Deportes"
-               asp-action="Index"
+               asp-action="DetailProducto"
                asp-route-idProducto="@producto.IdProducto">
 
                 Agreagar al carrito

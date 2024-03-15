@@ -111,14 +111,14 @@ namespace AllSports.Controllers
 
         public async Task <IActionResult> DetailProducto(int IdProducto)
         {
-
-            if (IdProducto != null)
+            bool primerAcceso = string.IsNullOrEmpty(HttpContext.Session.GetString("PrimerAcceso"));
+            if (!primerAcceso)
             {
+                // Bloque de código que se ejecutará solo en el primer acceso
                 List<int> idsProductos;
 
                 if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
                 {
-                    //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
                     idsProductos = new List<int>();
                 }
                 else
@@ -130,10 +130,11 @@ namespace AllSports.Controllers
                 HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
                 ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count;
             }
-
+            HttpContext.Session.SetString("PrimerAcceso", "true");
             List<ValoracionConNombreUsuario> Valoraciones = this.repo.GetValoracionById(IdProducto);
             Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             ViewData["Producto"] = producto;
+          
           
             return View(Valoraciones);
         }
