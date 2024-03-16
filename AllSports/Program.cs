@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddSingleton<HelperPathProvider>();
+builder.Services.AddSingleton<HelperMails>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAllSports");
 //RESOLVEMOS EL REPOSITORY CON TRANSIENT
 builder.Services.AddTransient<RepositoryDeportes>();
@@ -16,6 +17,8 @@ builder.Services.AddTransient<RepositoryUsuarios>();
 
 builder.Services.AddDbContext<AllSportsContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddAntiforgery();
+
+builder.Configuration.GetValue<string>("Key1:Key2");
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 ﻿using AllSports.Extensions;
+using AllSports.Helpers;
 using AllSports.Models;
 using AllSports.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +8,15 @@ namespace AllSports.Controllers
 {
     public class DeportesController : Controller
     {
+        private HelperMails helperMail;
         private RepositoryDeportes repo;
         private RepositoryUsuarios _repo;
-        public DeportesController(RepositoryDeportes repo, RepositoryUsuarios _repo)
+        public DeportesController(RepositoryDeportes repo, RepositoryUsuarios _repo,HelperMails helperMail)
         {
             this.repo = repo;
             this._repo = _repo;
+            this.helperMail = helperMail;
+             
         }
 
         public async Task<IActionResult> Index(int? idProducto, int? precio, int? posicion)
@@ -231,14 +235,14 @@ namespace AllSports.Controllers
             //string serverUrl = this.helperPathProvider.MapUrlServerPath();
             ////https://localhos:8555/Usuarios/ActivateUser/TOKEN?    esta es la url que tengo que generar
             //serverUrl = serverUrl + "/Usuarios/ActivateUser/" + user.TokenMail;
-            //string mensaje = "<h3>Usuario Registrado</h3>";
-            //mensaje += "<p>Debe activar su cuenta con nosotros pulsando el siguiente enlace</p>";
+            string mensaje = "<h3>Codigo de Descuento</h3>";
+            mensaje += "<p>Ha recibido un codigo de descuento por registrarse en nuestra págian</p>";
             //mensaje += "<p>" + serverUrl + "</p>";
             //mensaje += "<a href='" + serverUrl + "'>" + serverUrl + "</a>";
-            //mensaje = "<p>Muchas Gracias </p>";
-            //await this.helperMails.SendMailAsync(email, "Registro Usuario", mensaje);
+            mensaje = "<p>Introduzca el codigo: DESCUENTAZO para tener un 15% de descuento en todas sus compras </p>";
+            await this.helperMail.SendMailAsync(email, "Codigo Descuento", mensaje);
 
-            //ViewData["MENSAJE"] = "Usuario registrado correctamente";
+            ViewData["MENSAJE"] = "Usuario registrado correctamente Y correo enviado";
             return View();
         }
         #endregion

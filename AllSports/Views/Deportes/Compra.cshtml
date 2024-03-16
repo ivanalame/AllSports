@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label for="Precio">Precio</label>
-                <input type="text" class="form-control" value="@Model.Precio" readonly>
+                <input type="text" class="form-control" value="@Model.Precio€"  readonly>
             </div>
             <div class="form-group">
                 <label for="Cantidad">Cantidad</label>
@@ -68,7 +68,7 @@
                     
                     var nuevoPrecio = Model.Precio - descuento;
                 }
-                <input type="text" class="form-control" value="@nuevoPrecio" readonly>
+                <input type="text" class="form-control" value="@nuevoPrecio€" readonly>
 
             </div>
             <button type="submit" class="btn btn-primary">Realizar Compra</button>
