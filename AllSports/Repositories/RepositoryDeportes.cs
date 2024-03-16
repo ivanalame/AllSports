@@ -114,6 +114,27 @@ namespace AllSports.Repositories
 
             await this.context.SaveChangesAsync();
         }
+
+        //Insert New Compra
+        public async Task InsertNewCompra(int IdUsuario,int IdProducto, int Cantidad,DateTime FechaCompra,string Descuento)
+        {
+            int maxid = await this.context.Compras.MaxAsync(z => z.IdCompra) + 1;
+            Random random = new Random();
+            int albaran = random.Next(1, 1001);
+            Compra compra = new Compra ();
+
+            compra.IdCompra = maxid;
+            compra.Albaran = albaran;
+            compra.IdUsuario = IdUsuario;
+            compra.IdProducto = IdProducto;
+            compra.Cantidad = Cantidad;
+            compra.FechaCompra=FechaCompra;
+            compra.Descuento = Descuento;
+
+            this.context.Compras.Add(compra);
+
+            await this.context.SaveChangesAsync();
+        }
         //INSERT VALORACION
         public async Task InsertValoracion(int idUsuario, int idProducto, string comentario, int puntuacion)
         {

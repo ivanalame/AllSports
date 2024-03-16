@@ -20,6 +20,6 @@ namespace AllSports.Models
         [Column("FechaCompra")]
         public DateTime FechaCompra { get; set; }
         [Column("Descuento")]
-        public int Descuento { get; set; }
+        public string Descuento { get; set; }
     }
 }

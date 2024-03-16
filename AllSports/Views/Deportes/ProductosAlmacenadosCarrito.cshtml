@@ -1,11 +1,9 @@
 ﻿@model List<Producto>
 
-
-
-<h1>PRODUCTOS AÑADIDOS AL CARRITO</h1>
+<h1 class="mb-4">PRODUCTOS AÑADIDOS AL CARRITO</h1>
 
 <p>
-    <a asp-controller="Deportes" asp-action="Index">
+    <a asp-controller="Deportes" asp-action="Index" class="btn btn-secondary mb-4">
         VOLVER A HOME
     </a>
 </p>
@@ -14,12 +12,11 @@
 {
     <h2 style="color:red">NO EXISTEN PRODUCTOS EN EL CARRITO</h2>
 }
-
-@if(Model !=null)
+else if (Model != null && Model.Any())
 {
     <div style="max-height: 400px; overflow-y: auto;">
-        <table class="table">
-            <thead>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
                 <tr>
                     <th>Nombre</th>
                     <th>Precio</th>
@@ -28,7 +25,7 @@
                     <th>Talla</th>
                     <th>Imagen</th>
                     <th>Descripción Larga</th>
-                    <th>Eliminar</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,17 +57,21 @@
                         <td><img src="~/Images/@pro.Imagen" alt="Imagen del producto" width="100" height="100"></td>
                         <td>@pro.Descripcion_Larga</td>
                         <td>
-                            <a class="btn btn-danger" asp-controller="Deportes" asp-action="ProductosAlmacenadosCarrito" asp-route-ideliminar="@pro.IdProducto">
-                                Eliminar
-                            </a>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@pro.IdProducto" class="btn btn-success">Comprar</a>
+                                <a class="btn btn-danger" asp-controller="Deportes" asp-action="ProductosAlmacenadosCarrito" asp-route-ideliminar="@pro.IdProducto">Eliminar</a>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        @if(Context.Session.GetString("SUMAPRECIOS")!=null){
-              <h1>Precio Total:@Context.Session.GetString("SUMAPRECIOS"),00€ </h1>
+
+        @if (Context.Session.GetString("SUMAPRECIOS") != null)
+        {
+            <h3 class="mt-4">Precio Total: @Context.Session.GetString("SUMAPRECIOS"),00€</h3>
         }
-      
+
+        <a asp-action="ComprarTodo" asp-controller="Deportes" class="btn btn-primary mt-4">Comprar Todo</a>
     </div>
 }

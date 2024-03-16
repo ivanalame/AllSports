@@ -25,6 +25,26 @@
             }
         });
     });
+
+    // Espera a que el documento esté completamente cargado antes de ejecutar el script
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtiene el elemento del input de cantidad
+        var cantidadInput = document.getElementById("Cantidad");
+        // Obtiene el elemento del input de precio
+        var precioInput = document.getElementById("Precio");
+
+        // Añade un evento "change" al input de cantidad
+        cantidadInput.addEventListener("change", function () {
+            // Obtiene el valor de la cantidad
+            var cantidad = parseInt(cantidadInput.value);
+            // Obtiene el precio unitario del producto
+            var precioUnitario = parseFloat("@Model.Precio");
+            // Calcula el precio total multiplicando la cantidad por el precio unitario
+            var precioTotal = cantidad * precioUnitario;
+            // Actualiza el valor del input de precio con el precio total
+            precioInput.value = precioTotal.toFixed(2) + "€";
+        });
+    });
 </script>
 
 <form method="post" class="my-4">
@@ -35,11 +55,16 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Producto">Producto</label>
-                <input type="text" class="form-control" value="@Model.Nombre" id="@Model.IdProducto" name="IdProducto" readonly>
+                <input type="text" class="form-control" value="@Model.Nombre"  readonly>
+                <input type="hidden" class="form-control" value="@Model.IdProducto"  name="IdProducto"readonly>
+            </div>
+            <div class="form-group">
+              @*   modificar el value por el idusuario que sea *@
+                <input type="hidden" class="form-control" value="1"  name="IdUsuario" readonly>
             </div>
             <div class="form-group">
                 <label for="Precio">Precio</label>
-                <input type="text" class="form-control" value="@Model.Precio€"  readonly>
+                <input type="text" class="form-control" value="@Model.Precio€" id="Precio" readonly>
             </div>
             <div class="form-group">
                 <label for="Cantidad">Cantidad</label>
@@ -53,7 +78,7 @@
             <div class="form-group">
                 <label for="Descuento">Descuento (%)</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="Descuento" name="Descuento" required>
+                    <input type="text" class="form-control" id="Descuento" name="Descuento" >
                     <div class="input-group-append">
                         <button type="button" class="btn btn-outline-secondary" id="verificarCodigo">Verificar código</button>
                     </div>

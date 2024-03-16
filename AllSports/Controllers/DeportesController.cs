@@ -146,7 +146,16 @@ namespace AllSports.Controllers
         public async Task <IActionResult> Compra(int IdProducto)
         {
             Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
+            ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return View(producto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>Compra(Compra compra)
+        {
+            await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, compra.Descuento);
+            ViewData["MENSAJECOMPRA"] = "Compra Realizada";
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> _Valoraciones(int? idProducto)
