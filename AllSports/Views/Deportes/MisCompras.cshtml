@@ -1,0 +1,27 @@
+﻿@model List<Compra>
+
+<h1>Compras del Usuario</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row">
+        @foreach (var compra in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Compra ID: @compra.IdCompra</h5>
+                        <p class="card-text">Fecha de Compra: @compra.FechaCompra</p>
+                        <p class="card-text">Cantidad: @compra.Cantidad</p>
+                       
+                        <a href="@Url.Action("DetalleCompra", "Controlador", new { id = compra.IdCompra })" class="btn btn-primary">Detalle</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No hay compras realizadas por este usuario.</p>
+}

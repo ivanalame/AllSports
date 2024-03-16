@@ -192,14 +192,11 @@ namespace AllSports.Repositories
             return consulta.ToList();
         }
         //GET Todas las compras de un usuario 
-        public List<Compra> GetComprasByIdUser(int IdUsuario)
+        public async Task <List<Compra>> GetComprasByIdUser(int IdUsuario)
         {
-            var consulta = from datos in this.context.Compras
-                           where datos.IdUsuario == IdUsuario
-                           select datos;
-
-
-            return consulta.ToList();
+            return await this.context.Compras
+          .Where(compra => compra.IdUsuario == IdUsuario)
+          .ToListAsync();
         }
 
         //GET PRODUCTOS SESSION

@@ -10,7 +10,7 @@
             $("#botonloadvaloraciones").click(function () {
                 var idProducto = @producto.IdProducto;
                 $.ajax({
-                    url: '/Deportes/_Valoraciones', 
+                    url: '/Deportes/_Valoraciones',
                     type: 'GET', // O 'POST' según lo que necesites
                     data: { idProducto: idProducto },
                     success: function (response) {
@@ -42,7 +42,7 @@
             <p><strong>Descripción:</strong> @producto.Descripcion</p>
             <p><strong>Precio:</strong> @producto.Precio,00€</p>
             <p><strong>Descripción Larga:</strong> @producto.Descripcion_Larga</p>
-         
+
         </div>
     </div>
 
@@ -52,7 +52,7 @@
            asp-action="DetailProducto"
            asp-route-idProducto="@producto.IdProducto">
 
-            Agreagar al carrito
+            Agregar al carrito
 
         </a>
     }
@@ -68,7 +68,7 @@
                asp-action="DetailProducto"
                asp-route-idProducto="@producto.IdProducto">
 
-                Agreagar al carrito
+                Agregar al carrito
 
             </a>
         }
@@ -76,10 +76,10 @@
 
     <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
 
-    <button id="botonloadvaloraciones"  class="btn btn-success">Valorar Producto</button>
-            <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
+    <button id="botonloadvaloraciones" class="btn btn-success">Valorar Producto</button>
+    <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
+}
 
-  }
 @if (Model != null && Model.Count > 0)
 {
     <div class="row mt-4">
@@ -101,7 +101,6 @@
         </div>
     </div>
 }
-
 else
 {
     <p>No hay valoraciones para este producto.</p>

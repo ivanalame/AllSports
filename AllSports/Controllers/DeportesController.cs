@@ -153,7 +153,16 @@ namespace AllSports.Controllers
         [HttpPost]
         public async Task<IActionResult>Compra(Compra compra)
         {
-            await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, compra.Descuento);
+            string descuento = "";
+            if (compra.Descuento ==null)
+            {
+                descuento = "No";
+            }
+            else
+            {
+                descuento = compra.Descuento;
+            }
+            await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, descuento);
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return RedirectToAction("Index");
         }
@@ -282,5 +291,15 @@ namespace AllSports.Controllers
             return View();
         }
         #endregion
+
+        #region Ver Mis Compras
+        public async Task< IActionResult> MisCompras(int IdUsuario)
+        {
+            int id = 1;
+            List<Compra> Compras = await this.repo.GetComprasByIdUser(id);
+            return View(Compras);
+        }
+        #endregion
     }
 }
+
