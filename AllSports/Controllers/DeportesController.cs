@@ -174,12 +174,24 @@ namespace AllSports.Controllers
             {
                 descuento = compra.Descuento;
             }
-            await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, descuento);
+            await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, descuento,compra.Metodo_Pago,compra.Direccion,compra.Provincia);
             HttpContext.Session.SetString("IDPRODUCTOCOMPRADO", compra.IdProducto.ToString());
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
-      
+        //public async Task<IActionResult> ComprarTodo()
+        //{
+        //    return View();
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ComprarTodo(int[] idsProducto,Compra compra)
+        //{
+        //    await this.repo.InsertAllCarrito(idsProducto,compra.id)
+        //    return RedirectToAction("Index");
+        //}
+
         public async Task<IActionResult> _Valoraciones(int? idProducto)
         {
             if (idProducto != null)
@@ -246,9 +258,9 @@ namespace AllSports.Controllers
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Register
-            (string nombre, int nif, string email, string password, string apellidos)
+            (string nombre, int nif, string email, string password, string apellidos,int idRole)
         {
-            await this._repo.RegisterUser(nombre, apellidos, nif, email, password);
+            await this._repo.RegisterUser(nombre, apellidos, nif, email, password,idRole);
             //string serverUrl = this.helperPathProvider.MapUrlServerPath();
             ////https://localhos:8555/Usuarios/ActivateUser/TOKEN?    esta es la url que tengo que generar
             //serverUrl = serverUrl + "/Usuarios/ActivateUser/" + user.TokenMail;

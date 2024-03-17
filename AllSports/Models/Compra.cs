@@ -21,5 +21,11 @@ namespace AllSports.Models
         public DateTime FechaCompra { get; set; }
         [Column("Descuento")]
         public string Descuento { get; set; }
+        [Column("Metodo_Pago")]
+        public string Metodo_Pago { get; set; }
+        [Column("Direccion")]
+        public string Direccion { get; set; }
+        [Column("Provincia")]
+        public string Provincia { get; set; }
     }
 }

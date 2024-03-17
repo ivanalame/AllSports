@@ -4,69 +4,75 @@
     ViewData["Title"] = "_DetalleMisCompras";
 }
 
-<h1>_DetalleMisCompras</h1>
+<style>
+    /* Estilos personalizados */
+    .container {
+        padding-top: 50px;
+    }
 
-<div>
-    <h4>Producto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProducto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdProducto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Marca)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Marca)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Talla)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Talla)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCategoriaProducto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdCategoriaProducto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion_Larga)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion_Larga)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    .card {
+        border: none;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+    }
+
+    .card-body {
+        background-color: #f8f9fa; /* Color de fondo gris claro */
+        color: #343a40; /* Color de texto gris oscuro */
+    }
+
+    .product-img {
+        max-width: 100%;
+        border-radius: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Detalle de la Compra</h2>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="~/Images/@Model.Imagen" alt="Imagen del producto" class="img-fluid product-img">
+                        </div>
+                        <div class="col-md-7">
+                            <h4 class="mb-3">@Model.Nombre</h4>
+                            <p class="mb-2"><strong>Descripción: </strong>@Model.Descripcion</p>
+                            <p class="mb-2"><strong>Precio: </strong>@Model.Precio,00€</p>
+                            <p class="mb-2"><strong>Marca: </strong>@Model.Marca</p>
+                            <p class="mb-2">
+                                <strong>Talla: </strong>
+                                @{
+                                    string talla = "";
+                                    switch (Model.Talla)
+                                    {
+                                        case 1:
+                                            talla = "S";
+                                            break;
+                                        case 2:
+                                            talla = "M";
+                                            break;
+                                        case 3:
+                                            talla = "L";
+                                            break;
+                                        case 4:
+                                            talla = "XL";
+                                            break;
+                                        default:
+                                            talla = "No disponible";
+                                            break;
+                                    }
+                                }
+                                @talla
+                            </p>
+                            <p class="mb-2"><strong>Categoría: </strong>@Model.IdCategoriaProducto</p>
+                            <p class="mb-2"><strong>Descripción Larga: </strong>@Model.Descripcion_Larga</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

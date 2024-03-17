@@ -73,6 +73,14 @@ else if (Model != null && Model.Any())
             <h3 class="mt-4">Precio Total: @Context.Session.GetString("SUMAPRECIOS"),00€</h3>
         }
 
-        <a asp-action="ComprarTodo" asp-controller="Deportes" class="btn btn-primary mt-4">Comprar Todo</a>
+        <form method="post" asp-action="ComprarTodo" asp-controller="Deportes">
+            @foreach (var pro in Model)
+            {
+                <input type="hidden" name="productos[]" value="@pro.IdProducto">
+            }
+
+            <button type="submit" class="btn btn-primary mt-4">Comprar Todo</button>
+        </form>
+
     </div>
 }

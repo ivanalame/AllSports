@@ -27,7 +27,7 @@ namespace AllSports.Repositories
         }
 
 
-        public async Task RegisterUser(string nombre, string apellidos, int nif, string email, string password)
+        public async Task RegisterUser(string nombre, string apellidos, int nif, string email, string password,int idRole)
         {
             Usuario user = new Usuario
             {
@@ -41,6 +41,7 @@ namespace AllSports.Repositories
             };
             //user.Password = HelperCryptography.EncryptPassword(password, user.Salt);
             user.Password=password;
+            user.IdRolUsuario = idRole;
             this.context.Usuarios.Add(user);
 
             await this.context.SaveChangesAsync();

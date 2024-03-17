@@ -4,29 +4,27 @@
     List<int> idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
 }
 @section Scripts {
-
     <script>
         $(document).ready(function () {
-            // Delegar el evento de clic al elemento padre estático que ya está presente en la página
-            $(document).on("click", ".botonloaddetalle", function () {
-                var idProducto = $(this).data("idproducto");
+            $("#botonloadvaloraciones").click(function () {
+                var idProducto = @producto.IdProducto;
                 $.ajax({
-                    url: '/Deportes/_DetalleMisCompras',
-                    type: 'GET',
+                    url: '/Deportes/_Valoraciones',
+                    type: 'GET', // O 'POST' según lo que necesites
                     data: { idProducto: idProducto },
                     success: function (response) {
-                        $("#contenidodetalle").html(response);
+                        // Inserta el resultado (vista parcial) en el contenedor deseado
+                        $("#contenidovaloraciones").html(response);
                     },
                     error: function () {
-                        console.error("Error al cargar _DetalleMisCompras");
+                        console.error("Error al cargar _Valoraciones");
                     }
                 });
             });
         });
     </script>
-
-
 }
+
 
 <h1>Detalles Del Producto</h1>
 
@@ -81,8 +79,14 @@
     {
         <button id="botonloadvaloraciones" class="btn btn-success">Valorar Producto</button>
     }
+    else
+    {
+        <div class="alert alert-warning mt-3" role="alert">
+            <h4 class="alert-heading">¡Atención!</h4>
+            <p class="mb-0">Para valorar el producto, por favor inicie sesión.</p>
+        </div>
+    }
 
-   
     <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
 }
 

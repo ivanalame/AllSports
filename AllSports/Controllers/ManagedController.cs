@@ -59,7 +59,9 @@ namespace AllSports.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
                 //LO VAMOS A LLEVAR A UNA VISTA CON LA INFORMACION QUE NOS DEVUELVE EL FILTER EN TEMPDATA
                 string controller = TempData["controller"].ToString();
+              
                 string action = TempData["action"].ToString();
+               
                 return RedirectToAction(action, controller);
             }
             else

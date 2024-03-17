@@ -116,7 +116,7 @@ namespace AllSports.Repositories
         }
 
         //Insert New Compra
-        public async Task InsertNewCompra(int IdUsuario,int IdProducto, int Cantidad,DateTime FechaCompra,string Descuento)
+        public async Task InsertNewCompra(int IdUsuario,int IdProducto, int Cantidad,DateTime FechaCompra,string Descuento,string metodo,string direccion,string provincia)
         {
             int maxid = await this.context.Compras.MaxAsync(z => z.IdCompra) + 1;
             Random random = new Random();
@@ -129,6 +129,30 @@ namespace AllSports.Repositories
             compra.IdProducto = IdProducto;
             compra.Cantidad = Cantidad;
             compra.FechaCompra=FechaCompra;
+            compra.Descuento = Descuento;
+            compra.Metodo_Pago = metodo;
+            compra.Direccion = direccion;
+            compra.Provincia = provincia;
+
+            this.context.Compras.Add(compra);
+
+            await this.context.SaveChangesAsync();
+        }
+
+        //INSERT COMPRA TODO CARRITO
+        public async Task InsertAllCarrito(List<int>idsProducto,int IdUsuario, int IdProducto, int Cantidad, DateTime FechaCompra, string Descuento)
+        {
+            int maxid = await this.context.Compras.MaxAsync(z => z.IdCompra) + 1;
+            Random random = new Random();
+            int albaran = random.Next(1, 1001);
+            Compra compra = new Compra();
+
+            compra.IdCompra = maxid;
+            compra.Albaran = albaran;
+            compra.IdUsuario = IdUsuario;
+            compra.IdProducto = IdProducto;
+            compra.Cantidad = Cantidad;
+            compra.FechaCompra = FechaCompra;
             compra.Descuento = Descuento;
 
             this.context.Compras.Add(compra);

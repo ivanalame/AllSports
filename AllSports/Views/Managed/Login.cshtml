@@ -54,6 +54,20 @@
         text-align: center;
         margin-bottom: 10px;
     }
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .register-link a:hover {
+                text-decoration: underline;
+            }
 </style>
 <div class="container">
     <h2>Iniciar Sesión</h2>
@@ -73,4 +87,8 @@
 
         <input type="submit" value="Iniciar Sesión">
     </form>
+
+    <div class="register-link">
+        <p>¿No tienes cuenta? <a asp-action="Register" asp-controller="Deportes">Regístrate aquí</a></p>
+    </div>
 </div>
