@@ -230,6 +230,7 @@ namespace AllSports.Controllers
                     }
                 }
                 List<Producto> productos = await this.repo.GetProductosSessionAsync(idsProductos);
+                HttpContext.Session.Remove("IDPRODUCTOCOMPRADO");
                 return View(productos);
             }
             return View();

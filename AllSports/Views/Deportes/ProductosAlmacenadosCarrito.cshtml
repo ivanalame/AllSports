@@ -12,17 +12,6 @@
 {
     <h2 style="color:red">NO EXISTEN PRODUCTOS EN EL CARRITO</h2>
 }
-else if (Context.Session.GetInt32("IDPRODUCTOCOMPRADO").HasValue)
-{
-    string idsProductos = Context.Session.GetString("IDSPRODUCTOS");
-    int idProductoComprado = Context.Session.GetInt32("IDPRODUCTOCOMPRADO").Value; // No es necesario convertirlo a cadena
-
-    if (idsProductos.Contains(idProductoComprado.ToString()))
-    {
-        idsProductos = idsProductos.Replace(idProductoComprado.ToString(), "");
-        Context.Session.SetString("IDSPRODUCTOS", idsProductos);
-    }
-}
 
 else if (Model != null && Model.Any())
 {
