@@ -33,6 +33,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li> *@
                         @await Component.InvokeAsync("MenuDeportes")
+                        <partial name="_MenuUsuario" />
                        @*  <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="index">allsports</a>
                         </li> *@
@@ -54,7 +55,7 @@
                                 </div>
                               
                                 <div class="dropdown-content">
-                                    <a class="dropdown-item"  asp-controller="Deportes" asp-action="LogIn">Iniciar Sesión</a>
+                                    <a class="dropdown-item" asp-controller="Deportes" asp-action="PerfilUsuario">Iniciar Sesión</a>
                                     <a class="dropdown-item"  asp-controller="Deportes" asp-action="Register">Registrarse</a>
                                 </div>
                             </div> 

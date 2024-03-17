@@ -55,22 +55,22 @@
         margin-bottom: 10px;
     }
 </style>
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
+<div class="container">
+    <h2>Iniciar Sesión</h2>
 
-        @if (ViewData["Mensaje"] != null)
-        {
-            <div class="error">@ViewData["Mensaje"]</div>
-        }
+    @if (ViewData["Mensaje"] != null)
+    {
+        <div class="error">@ViewData["Mensaje"]</div>
+    }
 
-        <form method="post">
-            @Html.AntiForgeryToken()
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
 
-            <input type="submit" value="Iniciar Sesión">
-        </form>
-    </div>
+        <input type="submit" value="Iniciar Sesión">
+    </form>
+</div>

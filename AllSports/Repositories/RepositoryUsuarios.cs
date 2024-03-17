@@ -39,46 +39,53 @@ namespace AllSports.Repositories
                 //SACAMOS EL SALT
                 Salt = HelperCryptography.GenerateSalt(),
             };
-            user.Password = HelperCryptography.EncryptPassword(password, user.Salt);
+            //user.Password = HelperCryptography.EncryptPassword(password, user.Salt);
+            user.Password=password;
             this.context.Usuarios.Add(user);
 
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<Usuario> LogInUserAsync(string email, string password)
-        {
-            //var mail = email;
-            //var pass = password;
-            //try
-            //{
-                Usuario user = await this.context.Usuarios.FirstOrDefaultAsync(x=>x.Email == email);
-                // Resto del código aquí
-                if (user == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    string salt = user.Salt;
-                    byte[] temp = HelperCryptography.EncryptPassword(password, salt);
-                    byte[] passUser = user.Password;
-                    bool response = HelperCryptography.CompareArrays(temp, passUser);
+        //public async Task<Usuario> LogInUserAsync(string email, string password)
+        //{
+        //    //var mail = email;
+        //    //var pass = password;
+        //    //try
+        //    //{
+        //        Usuario user = await this.context.Usuarios.FirstOrDefaultAsync(x=>x.Email == email);
+        //        // Resto del código aquí
+        //        if (user == null)
+        //        {
+        //            return null;
+        //        }
+        //        else
+        //        {
+        //            string salt = user.Salt;
+        //            byte[] temp = HelperCryptography.EncryptPassword(password, salt);
+        //            byte[] passUser = user.Password;
+        //            bool response = HelperCryptography.CompareArrays(temp, passUser);
 
-                    if (response)
-                    {
-                        return user;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"Error al ejecutar FirstOrDefaultAsync: {ex.Message}");
-            //    throw; // Opcionalmente, puedes manejar la excepción de otra manera aquí
-            //}
+        //            if (response)
+        //            {
+        //                return user;
+        //            }
+        //            else
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    Console.WriteLine($"Error al ejecutar FirstOrDefaultAsync: {ex.Message}");
+        //    //    throw; // Opcionalmente, puedes manejar la excepción de otra manera aquí
+        //    //}
+        //}
+
+        public async Task<Usuario> LogInSeguridad(string email, string password)
+        {
+            Usuario usuario =await this.context.Usuarios.Where(z=>z.Email == email && z.Password == password).FirstOrDefaultAsync();
+            return usuario;
         }
     }
 }

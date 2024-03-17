@@ -1,8 +1,10 @@
 ﻿using AllSports.Extensions;
+using AllSports.Filters;
 using AllSports.Helpers;
 using AllSports.Models;
 using AllSports.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AllSports.Controllers
 {
@@ -112,7 +114,7 @@ namespace AllSports.Controllers
             List<Producto> Productos = this.repo.GetProductosById(IdCategoriaProducto);
             return View(Productos);
         }
-
+       
         public async Task <IActionResult> DetailProducto(int IdProducto)
         {
             bool primerAcceso = string.IsNullOrEmpty(HttpContext.Session.GetString("PrimerAcceso"));
@@ -142,14 +144,14 @@ namespace AllSports.Controllers
           
             return View(Valoraciones);
         }
-
+        [AuthorizeUsuarios]
         public async Task <IActionResult> Compra(int IdProducto)
         {
             Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return View(producto);
         }
-
+        [AuthorizeUsuarios]
         [HttpPost]
         public async Task<IActionResult>Compra(Compra compra)
         {
@@ -166,19 +168,22 @@ namespace AllSports.Controllers
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return RedirectToAction("Index");
         }
-
+      
         public async Task<IActionResult> _Valoraciones(int? idProducto)
         {
             if (idProducto != null)
             {
                   ViewData["IDPRODUCTO"] =  idProducto.Value;
             }
-         
+            var idUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ViewData["IDUSUARIO"] = idUsuario;
             return PartialView("_Valoraciones");
         }
+   
         [HttpPost]
         public async Task<IActionResult> _Valoraciones(Valoracion valoracion)
         {
+           
             await this.repo.InsertValoracion(valoracion.IdUsuario, valoracion.IdProducto, valoracion.Comentario, valoracion.Puntuacion);
             ViewData["MENSAJE"] = "Valoracion Añadida";
          return PartialView("_Valoraciones");
@@ -189,7 +194,7 @@ namespace AllSports.Controllers
 
         //    return View();
         //}
-
+        [AuthorizeUsuarios]
         public async Task<IActionResult> ProductosAlmacenadosCarrito(int? ideliminar)
         {
             List<int> idsProductos = HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
@@ -216,29 +221,6 @@ namespace AllSports.Controllers
         #endregion
 
         #region  login y register
-        public IActionResult LogIn()
-        {
-            return View();
-        }
-
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public async Task<IActionResult> LogIn(string email, string password)
-        {
-            var mail = email;
-            Usuario user = await this._repo.LogInUserAsync(mail, password);
-            if (user == null)
-            {
-                ViewData["MENSAJE"] = "Credenciales incorrectas";
-                return View();
-            }
-            else
-            {
-                ViewData["MENSAJE"] = "TODO CORRECTO";
-                return View(user);
-            }
-        }
-
         public IActionResult Register()
         {
             return View();
@@ -267,13 +249,14 @@ namespace AllSports.Controllers
 
 
         #region insert producto
+        [AuthorizeUsuarios]
         public IActionResult InsertProducto()
         {
             var categorias = this.repo.GetAllCategorias();
             ViewData["CATEGORIAS"] = categorias;
             return View();
         }
-
+        [AuthorizeUsuarios]
         [HttpPost]
         public async Task <IActionResult> InsertProducto(Producto producto, IFormFile fichero)
         {
@@ -293,13 +276,19 @@ namespace AllSports.Controllers
         #endregion
 
         #region Ver Mis Compras
-        public async Task< IActionResult> MisCompras(int IdUsuario)
+        public async Task< IActionResult> MisCompras()
         {
-            int id = 1;
-            List<Compra> Compras = await this.repo.GetComprasByIdUser(id);
+            var idUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            List<Compra> Compras = await this.repo.GetComprasByIdUser(int.Parse(idUsuario));
             return View(Compras);
         }
         #endregion
+
+        [AuthorizeUsuarios]
+        public IActionResult PerfilUsuario()
+        {
+            return View();
+        }
     }
 }
 

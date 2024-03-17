@@ -18,13 +18,13 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="index">Home AllSports</a>
             </li>
-
-              <li class="nav-item">
+            @if (Context.User.IsInRole("1")==true)
+            {
+                 <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="insertproducto">insertproducto</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="MisCompras">Mis Compras</a>
-            </li>
+            }
+             
                 </ul>
 
                

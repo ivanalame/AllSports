@@ -1,0 +1,10 @@
+﻿@using System.Security.Claims
+
+<h1>Perfil de @Context.User.Identity.Name</h1>
+
+<ul>
+    @foreach(Claim claim in Context.User.Claims)
+    {
+        <li>@claim.Type: <b>@claim.Value</b></li>
+    }
+</ul>

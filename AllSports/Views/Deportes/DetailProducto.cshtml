@@ -76,7 +76,12 @@
 
     <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
 
-    <button id="botonloadvaloraciones" class="btn btn-success">Valorar Producto</button>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button id="botonloadvaloraciones" class="btn btn-success">Valorar Producto</button>
+    }
+
+   
     <div id="contenidovaloraciones" style="background-color: lightgreen"></div>
 }
 

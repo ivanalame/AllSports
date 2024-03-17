@@ -28,6 +28,9 @@ namespace AllSports.Models
 
         [Column("Contraseña")]
 
-        public byte[] Password { get; set; }
+        public string Password { get; set; }
+
+        [Column("IdRolUsuario")]
+        public int IdRolUsuario { get; set; }
     }
 }
