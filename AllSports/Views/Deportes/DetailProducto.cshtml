@@ -7,23 +7,24 @@
 
     <script>
         $(document).ready(function () {
-            $("#botonloadvaloraciones").click(function () {
-                var idProducto = @producto.IdProducto;
+            // Delegar el evento de clic al elemento padre estático que ya está presente en la página
+            $(document).on("click", ".botonloaddetalle", function () {
+                var idProducto = $(this).data("idproducto");
                 $.ajax({
-                    url: '/Deportes/_Valoraciones',
-                    type: 'GET', // O 'POST' según lo que necesites
+                    url: '/Deportes/_DetalleMisCompras',
+                    type: 'GET',
                     data: { idProducto: idProducto },
                     success: function (response) {
-                        // Inserta el resultado (vista parcial) en el contenedor deseado
-                        $("#contenidovaloraciones").html(response);
+                        $("#contenidodetalle").html(response);
                     },
                     error: function () {
-                        console.error("Error al cargar _Valoraciones");
+                        console.error("Error al cargar _DetalleMisCompras");
                     }
                 });
             });
         });
     </script>
+
 
 }
 

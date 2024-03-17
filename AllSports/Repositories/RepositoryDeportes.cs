@@ -165,14 +165,11 @@ namespace AllSports.Repositories
         }
 
         //Get producto por id Producto 
-        public async Task <Producto> GetProductoByIdAsync(int IdProducto)
+        public async Task<Producto> GetProductoByIdAsync(int IdProducto)
         {
-            var consulta = from datos in this.context.Productos
-                           where datos.IdProducto == IdProducto
-                           select datos;
-
-            return consulta.First();
+            return await context.Productos.FirstOrDefaultAsync(p => p.IdProducto == IdProducto);
         }
+
 
         //GET TODAS LAS VALORACIONES DE UN PRODUCTO 
         public List<ValoracionConNombreUsuario> GetValoracionById(int IdProducto)
@@ -236,7 +233,6 @@ namespace AllSports.Repositories
                 Productos = productos
             };
         }
-
         #endregion
     }
 }

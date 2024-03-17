@@ -89,13 +89,21 @@ namespace AllSports.Controllers
             return View(Categorias);
         }
 
-        public IActionResult Productos(int IdCategoriaProducto, int? idProducto)
+        public IActionResult Productos(int IdCategoriaProducto, int? idProducto,int? precio)
         {
 
-            if (idProducto != null)
+            if (idProducto != null && precio != null)
             {
                 List<int> idsProductos;
+                int sumaPrecios = 0;
 
+                if (HttpContext.Session.GetString("SUMAPRECIOS") != null)
+                {
+                    //recupero de session el precio 
+                    sumaPrecios = int.Parse(HttpContext.Session.GetString("SUMAPRECIOS"));
+                }
+                sumaPrecios += precio.Value;
+                HttpContext.Session.SetString("SUMAPRECIOS", sumaPrecios.ToString());
                 if (HttpContext.Session.GetString("IDSPRODUCTOS") == null)
                 {
                     //TODAVIA NO TENEMOS DATOS EN SESSION Y CREAMOS LA COLECCION 
@@ -144,9 +152,11 @@ namespace AllSports.Controllers
           
             return View(Valoraciones);
         }
-        [AuthorizeUsuarios]
+        
         public async Task <IActionResult> Compra(int IdProducto)
         {
+            var idUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ViewData["IDUSUARIO"] = idUsuario;
             Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return View(producto);
@@ -165,6 +175,7 @@ namespace AllSports.Controllers
                 descuento = compra.Descuento;
             }
             await this.repo.InsertNewCompra(compra.IdUsuario,compra.IdProducto, compra.Cantidad, compra.FechaCompra, descuento);
+            HttpContext.Session.SetString("IDPRODUCTOCOMPRADO", compra.IdProducto.ToString());
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return RedirectToAction("Index");
         }
@@ -198,7 +209,12 @@ namespace AllSports.Controllers
         public async Task<IActionResult> ProductosAlmacenadosCarrito(int? ideliminar)
         {
             List<int> idsProductos = HttpContext.Session.GetObject<List<int>>("IDSPRODUCTOS");
-
+            
+            if(HttpContext.Session.GetString("IDPRODUCTOCOMPRADO") != null)
+            {
+             ideliminar = int.Parse (HttpContext.Session.GetString("IDPRODUCTOCOMPRADO"));
+            }
+          
             if (idsProductos!=null)
             {
                 if (ideliminar!=null)
@@ -281,6 +297,12 @@ namespace AllSports.Controllers
             var idUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             List<Compra> Compras = await this.repo.GetComprasByIdUser(int.Parse(idUsuario));
             return View(Compras);
+        }
+
+        public async Task<IActionResult> _DetalleMisCompras(int? idProducto)
+        {
+            Producto producto = await this.repo.GetProductoByIdAsync(idProducto.Value);
+            return PartialView("_DetalleMisCompras",producto);
         }
         #endregion
 
