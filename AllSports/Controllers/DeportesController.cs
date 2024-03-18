@@ -152,16 +152,16 @@ namespace AllSports.Controllers
           
             return View(Valoraciones);
         }
-        
-        public async Task <IActionResult> Compra(int IdProducto)
+        [AuthorizeUsuarios]
+        public async Task <IActionResult> Compra(int id)
         {
             var idUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             ViewData["IDUSUARIO"] = idUsuario;
-            Producto producto = await this.repo.GetProductoByIdAsync(IdProducto);
+            Producto producto = await this.repo.GetProductoByIdAsync(id);
             ViewData["MENSAJECOMPRA"] = "Compra Realizada";
             return View(producto);
         }
-        [AuthorizeUsuarios]
+       
         [HttpPost]
         public async Task<IActionResult>Compra(Compra compra)
         {

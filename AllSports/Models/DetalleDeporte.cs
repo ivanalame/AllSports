@@ -14,5 +14,7 @@ namespace AllSports.Models
         public int IdDeporte { get; set; }
         [Column("Nombre")]
         public string Nombre { get; set; }
+        [Column("Imagen")]
+        public string Imagen { get; set; }
     }
 }

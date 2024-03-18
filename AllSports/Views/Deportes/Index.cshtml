@@ -13,6 +13,37 @@
 }
 
 
+<style>
+    .title-text {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .card-custom:hover .title-text {
+        transform: translateY(-5px); /* Mueve el título hacia arriba */
+        color: #ffcc00; /* Cambia el color del texto al pasar el ratón */
+    }
+
+    .card-custom:hover {
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Cambia la sombra al pasar el ratón */
+    }
+
+    .product-card {
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+        .product-card:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* Ajusta la sombra al pasar el ratón */
+            transform: translateY(-5px); /* Mueve ligeramente la tarjeta hacia arriba */
+        }
+
+            .product-card:hover .card-title,
+            .product-card:hover .card-text {
+                color: #ffcc00; /* Cambia el color del texto al pasar el ratón */
+            }
+</style>
 
 
  <h2 style="color:red">@ViewData["MENSAJE"]</h2>
@@ -78,29 +109,17 @@
     <h1>DEPORTES</h1>
 
     <div class="container mt-4">
-       
-            <div class="">
-                <!-- Amplié el tamaño de la columna para que se ajuste mejor -->
-                <div class="card p-3 shadow">
-                    <label for="deporteSelect" class="form-label">Deportes: </label>
-                    <div class="">
-                        <div class="row">
-                            @foreach (var deporte in Model.DetalleDeporte)
-                            {
-                                <div class="col-3 mb-3">
-                                    <!-- Ajusté el tamaño de la columna para mostrar 6 elementos por fila -->
-                                    <!-- Añade margen inferior para separar las filas -->
-                                    <a asp-action="CategoriasProducto" asp-controller="Deportes" asp-route-IdDetalleDeporte="@deporte.IdDetalleDeporte">
-                                        <div class="card-tex p-4 shadow bg-primary text-white">
-                                            <!-- Ajusté el tamaño de la tarjeta -->
-                                            <label class="form-label">@deporte.Nombre</label>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                    </div>
+        <div class="row">
+            @foreach (var deporte in Model.DetalleDeporte)
+            {
+                <div class="col-md-4 mb-3">
+                    <a asp-action="CategoriasProducto" asp-controller="Deportes" asp-route-IdDetalleDeporte="@deporte.IdDetalleDeporte">
+                        <div class="card p-4 shadow bg-primary text-white position-relative card-custom" style="background-image: url('/images/@deporte.Imagen'); background-size: cover; background-position: center;">
+                            <h5 class="form-label title-text position-absolute bottom-0 start-50 translate-middle-x">@deporte.Nombre</h5>
+                        </div>
+                    </a>
                 </div>
-            </div>
+            }
         </div>
     </div>
 
@@ -119,7 +138,7 @@
                                 {
                                     <div class="col mb-4">
                                         <!-- Eliminamos el estilo width: 400px; del div.card para que el ancho sea automático -->
-                                        <div class="card p-4 shadow bg-light">
+                                        <div class="card p-4 shadow bg-light product-card">
                                             @if (producto.Imagen != null)
                                             {
                                                 <img src="~/Images/@producto.Imagen" class="card-img-top w-100 mx-auto d-block" alt="@producto.Nombre">
@@ -129,19 +148,18 @@
                                                 <p class="card-text">@producto.Descripcion</p>
                                                 <p class="card-text">Precio: @producto.Precio,00€</p>
                                                 <a asp-controller="Deportes" asp-action="DetailProducto" asp-route-IdProducto="@producto.IdProducto" class="btn btn-primary">Mas Info</a>
-                                                @if(idsproductos ==null){
+                                                @if (idsproductos == null)
+                                                {
                                                     <a class="btn btn-info" asp-controller="Deportes"
-                                                   asp-action="Index"
-                                                   asp-route-idProducto="@producto.IdProducto"
-                                                    asp-route-precio="@producto.Precio">
-
-                                                        Agreagar al carrito
-
-                                                </a>
+                                                       asp-action="Index"
+                                                       asp-route-idProducto="@producto.IdProducto"
+                                                       asp-route-precio="@producto.Precio">
+                                                        Agregar al carrito
+                                                    </a>
                                                 }
                                                 else
                                                 {
-                                                    if(idsproductos.Contains(producto.IdProducto))
+                                                    if (idsproductos.Contains(producto.IdProducto))
                                                     {
                                                         <h4 style="color:deepskyblue">Este producto ya lo tienes en el carrito</h4>
                                                     }
@@ -151,38 +169,15 @@
                                                            asp-action="Index"
                                                            asp-route-idProducto="@producto.IdProducto"
                                                            asp-route-precio="@producto.Precio">
-                                                            
-
-                                                            Agreagar al carrito
-
+                                                            Agregar al carrito
                                                         </a>
                                                     }
                                                 }
-                                              
-                                                <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
+                                                <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
                                             </div>
                                         </div>
                                     </div>
                                 }
-                                <div>
-                                    <ul class="list-group list-group-horizontal">
-                                        <li class="list-group-item list-group-item-warning">
-                                            <a asp-controller="Deportes"
-                                               asp-action="Index"
-                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] - 6)">
-                                                atras
-                                            </a>
-                                        </li>
-                                        <li class="list-group-item list-group-item-warning">
-                                            <a asp-controller="Deportes"
-                                               asp-action="Index"
-                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] + 6)">
-                                                >>>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
                             </div>
                         </div>
                     </div>
