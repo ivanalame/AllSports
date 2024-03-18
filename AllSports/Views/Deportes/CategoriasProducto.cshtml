@@ -1,13 +1,21 @@
 ﻿@model List<CategoriaProduto>
 
-<h1>CATEGORIAS PRODUCTOS</h1>
+<style>
+    .fondo {
+        background-color: #0d9cc4;
+        transition: transform 0.3s ease;
+    }
 
-@if (@Model != null)
+        .fondo:hover {
+            transform: translateY(-5px);
+        }
+</style>
+
+@if (Model != null)
 {
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <!-- Amplié el tamaño de la columna para que se ajuste mejor -->
                 <div class="card p-3 shadow">
                     <label for="deporteSelect" class="form-label">Deportes: </label>
                     <div class="container">
@@ -15,11 +23,8 @@
                             @foreach (var categoria in Model)
                             {
                                 <div class="col-md-2 mb-3">
-                                    <!-- Ajusté el tamaño de la columna para mostrar 6 elementos por fila -->
-                                    <!-- Añade margen inferior para separar las filas -->
                                     <a asp-action="Productos" asp-controller="Deportes" asp-route-IdCategoriaProducto="@categoria.IdCategoriaProducto">
-                                        <div class="card p-4 shadow bg-primary text-white">
-                                            <!-- Ajusté el tamaño de la tarjeta -->
+                                        <div class="card p-4 shadow  text-white fondo">
                                             <label class="form-label">@categoria.Nombre</label>
                                         </div>
                                     </a>
@@ -32,3 +37,5 @@
         </div>
     </div>
 }
+
+

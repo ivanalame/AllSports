@@ -1,9 +1,8 @@
 ﻿@model List<Producto>
 @{
- List<int>
-    idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
+    List<int> idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
 }
- 
+
 <h1>CATEGORIAS PRODUCTOS</h1>
 <style>
 
@@ -11,15 +10,38 @@
         transition: transform 0.8s ease-in-out;
     }
 
-    /* Aplica la animación al elemento cuando el cursor está encima */
+   
     .wobble-horizontal-top:hover .card-img-top {
         transform: translateX(-15px) rotate(-5deg);
     }
+
+    .card-custom:hover .title-text {
+        transform: translateY(-5px);
+        color: #2D31C4;
+    }
+
+    .card-custom:hover {
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-card {
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+        .product-card:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+
+            .product-card:hover .card-title,
+            .product-card:hover .card-text {
+                color: #007F7F;
+            }
 </style>
 
 <script>
     // JavaScript para aplicar la animación al elemento cuando el cursor está encima
-    document.querySelectorAll('.producto-card').forEach(item => {
+    document.querySelectorAll('.product-card').forEach(item => {
         item.addEventListener('mouseover', () => {
             item.querySelector('.card-img-top').classList.add('wobble-horizontal-top');
         });
@@ -43,7 +65,8 @@
                             <!-- Utilizamos row-cols-md-3 para que haya una fila de 3 columnas en dispositivos medianos (md) y una columna en dispositivos pequeños -->
                             @foreach (var producto in Model)
                             {
-                                <div class="col mb-4">
+                                <div class="col mb-4 product-card">
+                                    <!-- Cambiamos la clase a "product-card" -->
                                     <!-- Eliminamos el estilo width: 400px; del div.card para que el ancho sea automático -->
                                     <div class="card p-4 shadow bg-light">
                                         @if (producto.Imagen != null)
@@ -78,24 +101,24 @@
                                                     <a class="btn btn-info" asp-controller="Deportes"
                                                        asp-action="Productos"
                                                        asp-route-idProducto="@producto.IdProducto"
-                                                        asp-route-IdCategoriaProducto="@producto.IdCategoriaProducto"
+                                                       asp-route-IdCategoriaProducto="@producto.IdCategoriaProducto"
                                                        asp-route-precio="@producto.Precio">
                                                         Agreagar al carritio
 
                                                     </a>
                                                 }
                                             }
-                                            <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
+                                            <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
                                             @if (Context.User.IsInRole("1") == true)
                                             {
 
                                                 <a asp-action="ModificarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-warning pt-2 mt-2">Modificar</a>
 
-                                              
-                                                    <a asp-action="EliminarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-danger pt-2 mt-2">Eliminar</a>
-                                              
+
+                                                <a asp-action="EliminarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-danger pt-2 mt-2">Eliminar</a>
+
                                             }
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }

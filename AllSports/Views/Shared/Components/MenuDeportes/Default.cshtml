@@ -3,10 +3,13 @@
     List<int> idsproductos =
     Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
 }
-
-
-    
-        <div class="container">
+<style>
+    .bg-image-navbar {
+        background-image: url('/images/Surf.JPG');
+        background-size: cover;
+    }
+</style>
+<div class="container bg-image-navbar">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -25,9 +28,30 @@
             @if (Context.User.IsInRole("1")==true)
             {
                  <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="insertproducto">insertproducto</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="deportes" asp-action="insertproducto">Insertar Producto</a>
             </li>
             }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Deportes" asp-action="MisCompras">
+                       Mis Compras
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Deportes" asp-action="PerfilUsuario">
+                        <small>Mi perfil</small>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Managed" asp-action="Logout">
+                        <small>Log out <span style="color:blue">@Context.User.Identity.Name</span></small>
+                    </a>
+                </li>
+               
+            }
+
              
                 </ul>
 

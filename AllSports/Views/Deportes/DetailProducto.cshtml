@@ -22,6 +22,22 @@
                 });
             });
         });
+
+
+
+        $(document).ready(function () {
+            $('.card').hover(function () {
+                $(this).css({
+                    'transform': 'scale(1.05)',
+                    'box-shadow': '0 0 20px rgba(0,0,0,0.2)'
+                });
+            }, function () {
+                $(this).css({
+                    'transform': 'scale(1)',
+                    'box-shadow': 'none'
+                });
+            });
+        });
     </script>
 }
 
@@ -42,38 +58,38 @@
             <p><strong>Precio:</strong> @producto.Precio,00€</p>
             <p><strong>Descripción Larga:</strong> @producto.Descripcion_Larga</p>
 
+            @if (idsproductos == null)
+            {
+                <a class="btn btn-info" asp-controller="Deportes"
+                   asp-action="DetailProducto"
+                   asp-route-idProducto="@producto.IdProducto">
+
+                    Agregar al carrito
+
+                </a>
+            }
+            else
+            {
+                if (idsproductos.Contains(producto.IdProducto))
+                {
+                    <h4 style="color:deepskyblue">Este producto ya lo tienes en el carrito</h4>
+                }
+                else
+                {
+                    <a class="btn btn-info" asp-controller="Deportes"
+                       asp-action="DetailProducto"
+                       asp-route-idProducto="@producto.IdProducto">
+
+                        Agregar al carrito
+
+                    </a>
+                }
+            }
+
+            <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
         </div>
+
     </div>
-
-    @if (idsproductos == null)
-    {
-        <a class="btn btn-info" asp-controller="Deportes"
-           asp-action="DetailProducto"
-           asp-route-idProducto="@producto.IdProducto">
-
-            Agregar al carrito
-
-        </a>
-    }
-    else
-    {
-        if (idsproductos.Contains(producto.IdProducto))
-        {
-            <h4 style="color:deepskyblue">Este producto ya lo tienes en el carrito</h4>
-        }
-        else
-        {
-            <a class="btn btn-info" asp-controller="Deportes"
-               asp-action="DetailProducto"
-               asp-route-idProducto="@producto.IdProducto">
-
-                Agregar al carrito
-
-            </a>
-        }
-    }
-
-    <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
 
     @if (User.Identity.IsAuthenticated)
     {
@@ -99,19 +115,35 @@
                 @foreach (var valoracion in Model)
                 {
                     <li class="list-inline-item">
-                        <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
-                            <p><strong>Usuario:</strong> @valoracion.NombreUsuario</p>
-                            <p><strong>Valoración:</strong> @valoracion.Puntuacion</p>
-                            <p><strong>Comentario:</strong> @valoracion.Comentario</p>
-                            <!-- Agrega más campos de Valoración según sea necesario -->
+                        <div class="card border-dark mb-3" style="width: 25rem; transition: all 0.3s ease;">
+                            <div class="card-body">
+                                <h5 class="card-title">Usuario: @valoracion.NombreUsuario</h5>
+                                <p class="card-text">
+                                    Valoración:
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        if (i <= valoracion.Puntuacion)
+                                        {
+                                            <span>&#9733;</span>
+                                        }
+                                        else
+                                        {
+                                            <span>&#9734;</span>
+                                        }
+                                    }
+                                </p>
+                                <p class="card-text">Comentario: @valoracion.Comentario</p>
+                            </div>
                         </div>
                     </li>
                 }
             </ul>
         </div>
     </div>
+
 }
 else
 {
     <p>No hay valoraciones para este producto.</p>
 }
+

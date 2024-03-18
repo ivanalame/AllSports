@@ -346,10 +346,10 @@ namespace AllSports.Controllers
             return View(Compras);
         }
 
-        public async Task<IActionResult> _DetalleMisCompras(int? idProducto)
+        public async Task<IActionResult> DetalleMisCompras(int? idProducto)
         {
             Producto producto = await this.repo.GetProductoByIdAsync(idProducto.Value);
-            return PartialView("_DetalleMisCompras",producto);
+            return View(producto);
         }
         #endregion
 

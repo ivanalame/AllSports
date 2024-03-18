@@ -59,7 +59,7 @@ else if (Model != null && Model.Any())
                         <td>@pro.Descripcion_Larga</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@pro.IdProducto" class="btn btn-success">Comprar</a>
+                                <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@pro.IdProducto" class="btn btn-success">Comprar</a>
                                 <a class="btn btn-danger" asp-controller="Deportes" asp-action="ProductosAlmacenadosCarrito" asp-route-ideliminar="@pro.IdProducto">Eliminar</a>
                             </div>
                         </td>
@@ -72,7 +72,7 @@ else if (Model != null && Model.Any())
         {
             <h3 class="mt-4">Precio Total: @Context.Session.GetString("SUMAPRECIOS"),00€</h3>
         }
-
+@* 
         <form method="post" asp-action="ComprarTodo" asp-controller="Deportes">
             @foreach (var pro in Model)
             {
@@ -80,7 +80,7 @@ else if (Model != null && Model.Any())
             }
 
             <button type="submit" class="btn btn-primary mt-4">Comprar Todo</button>
-        </form>
+        </form> *@
 
     </div>
 }

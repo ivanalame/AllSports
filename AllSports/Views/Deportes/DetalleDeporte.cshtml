@@ -1,6 +1,15 @@
 ﻿@model List<DetalleDeporte>
 
-<h1>CATEGORIAS PRODUCTOS</h1>
+<style>
+    .fondo {
+        background-color: #0d9cc4;
+        transition: transform 0.3s ease;
+    }
+
+        .fondo:hover {
+            transform: translateY(-5px);
+        }
+</style>
 
 @if (@Model != null)
 {
@@ -15,11 +24,10 @@
                             @foreach (var Deporte in Model)
                             {
                                 <div class="col-md-2 mb-3">
-                                    <!-- Ajusté el tamaño de la columna para mostrar 6 elementos por fila -->
-                                    <!-- Añade margen inferior para separar las filas -->
+                                    
                                     <a asp-action="CategoriasProducto" asp-controller="Deportes" asp-route-IdDetalleDeporte="@Deporte.IdDetalleDeporte">
-                                        <div class="card p-4 shadow bg-primary text-white">
-                                            <!-- Ajusté el tamaño de la tarjeta -->
+                                        <div class="fondo card p-4 shadow text-white">
+                                           
                                             <label class="form-label">@Deporte.Nombre</label>
                                         </div>
                                     </a>

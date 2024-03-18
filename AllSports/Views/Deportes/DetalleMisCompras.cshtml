@@ -25,8 +25,21 @@
         max-width: 100%;
         border-radius: 20px;
     }
-</style>
 
+    .product-info {
+        padding: 20px;
+        border-left: 2px solid #007bff;
+    }
+
+        .product-info h4 {
+            color: #007bff;
+        }
+
+        .product-info p {
+            color: #6c757d;
+        }
+</style>
+<a asp-action="MisCompras" asp-controller="deportes" class="btn btn-secondary back-btn">Volver atrás</a>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -37,14 +50,13 @@
                         <div class="col-md-5">
                             <img src="~/Images/@Model.Imagen" alt="Imagen del producto" class="img-fluid product-img">
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-7 product-info">
                             <h4 class="mb-3">@Model.Nombre</h4>
                             <p class="mb-2"><strong>Descripción: </strong>@Model.Descripcion</p>
                             <p class="mb-2"><strong>Precio: </strong>@Model.Precio,00€</p>
                             <p class="mb-2"><strong>Marca: </strong>@Model.Marca</p>
                             <p class="mb-2">
-                                <strong>Talla: </strong>
-                                @{
+                                <strong>Talla: </strong>@{
                                     string talla = "";
                                     switch (Model.Talla)
                                     {
@@ -64,8 +76,8 @@
                                             talla = "No disponible";
                                             break;
                                     }
+                                    @talla
                                 }
-                                @talla
                             </p>
                             <p class="mb-2"><strong>Categoría: </strong>@Model.IdCategoriaProducto</p>
                             <p class="mb-2"><strong>Descripción Larga: </strong>@Model.Descripcion_Larga</p>
