@@ -11,14 +11,15 @@ namespace AllSports.Controllers
     public class DeportesController : Controller
     {
         private HelperMails helperMail;
+        private HelperUploadFiles helperUploadFiles;
         private RepositoryDeportes repo;
         private RepositoryUsuarios _repo;
-        public DeportesController(RepositoryDeportes repo, RepositoryUsuarios _repo,HelperMails helperMail)
+        public DeportesController(RepositoryDeportes repo, RepositoryUsuarios _repo,HelperMails helperMail,HelperUploadFiles helperUploadFiles)
         {
             this.repo = repo;
             this._repo = _repo;
             this.helperMail = helperMail;
-             
+            this.helperUploadFiles = helperUploadFiles;
         }
 
         public async Task<IActionResult> Index(int? idProducto, int? precio, int? posicion)
@@ -49,7 +50,7 @@ namespace AllSports.Controllers
                idsProductos.Add(idProducto.Value);
                 //GUARDAMOS LA COLECCION EN SESSION
                 HttpContext.Session.SetObject("IDSPRODUCTOS", idsProductos);
-                ViewData["MENSAJE"] = "Productos Almacenados" + idsProductos.Count ;
+                ViewData["MENSAJE"] = "Producto almacenado en el carrito" ;
             }
 
             if(posicion == null)
@@ -75,12 +76,43 @@ namespace AllSports.Controllers
             };
             return View(viewModel);
         }
+        public async Task<IActionResult> EliminarProducto(int idproducto)
+        {
+            await this.repo.DeleteProducto(idproducto);
+            return RedirectToAction("Index"); 
+        }
+
+        public async Task<IActionResult> ModificarProducto(int idproducto)
+        {
+            var categorias = this.repo.GetAllCategorias();
+            ViewData["CATEGORIAS"] = categorias;
+            Producto producto = await this.repo.GetProductoByIdAsync(idproducto);
+            return View(producto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ModificarProducto(Producto producto, IFormFile fichero, string imagenAnterior)
+        {
+            if (fichero != null)
+            {
+                await this.helperUploadFiles.UploadFileAsync(fichero, Folders.Images);
+                producto.Imagen = fichero.FileName;
+                await this.repo.ModificarProducto(producto.IdProducto, producto.Nombre, producto.Precio, producto.Marca, producto.Descripcion, producto.Talla, producto.Imagen, producto.IdCategoriaProducto, producto.Descripcion_Larga);
+            }
+            else
+            {
+                producto.Imagen = imagenAnterior;
+                await this.repo.ModificarProducto(producto.IdProducto, producto.Nombre, producto.Precio, producto.Marca, producto.Descripcion, producto.Talla, producto.Imagen, producto.IdCategoriaProducto, producto.Descripcion_Larga);
+            }
+          
+            return RedirectToAction("Productos", new { IdCategoriaProducto = producto.IdCategoriaProducto});
+        }
+
 
         public IActionResult DetalleDeporte(int IdDeporte)
         {
             List<DetalleDeporte> Deportes = this.repo.GetDetalleDeportesById(IdDeporte);
             return View(Deportes);
-        }
+        } 
 
         
         public IActionResult CategoriasProducto(int IdDetalleDeporte)
@@ -291,6 +323,8 @@ namespace AllSports.Controllers
         {
             if (fichero != null)
             {
+                await this.helperUploadFiles.UploadFileAsync(fichero, Folders.Images);
+
                 producto.Imagen = fichero.FileName;
                 await this.repo.InsertProducto(producto.Nombre, producto.Precio, producto.Marca, producto.Descripcion, producto.Talla, producto.Imagen, producto.IdCategoriaProducto, producto.Descripcion_Larga);
             }

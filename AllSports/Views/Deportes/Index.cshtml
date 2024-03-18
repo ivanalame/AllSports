@@ -23,7 +23,7 @@
 
     .card-custom:hover .title-text {
         transform: translateY(-5px); /* Mueve el título hacia arriba */
-        color: #ffcc00; /* Cambia el color del texto al pasar el ratón */
+        color: #2D31C4; /* Cambia el color del texto al pasar el ratón */
     }
 
     .card-custom:hover {
@@ -41,12 +41,13 @@
 
             .product-card:hover .card-title,
             .product-card:hover .card-text {
-                color: #ffcc00; /* Cambia el color del texto al pasar el ratón */
+                color: #007F7F; /* Cambia el color del texto al pasar el ratón */
             }
 </style>
 
 
- <h2 style="color:red">@ViewData["MENSAJE"]</h2>
+<h2 style="color: #007F7F"> @ViewData["MENSAJE"]</h2>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -78,7 +79,6 @@
     </div>
 </div>
 
- </div>
 <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item">
@@ -106,7 +106,7 @@
 <div class="py-3">
     
 
-    <h1>DEPORTES</h1>
+    <h1 class="text-center">DEPORTES</h1>
 
     <div class="container mt-4">
         <div class="row">
@@ -174,10 +174,38 @@
                                                     }
                                                 }
                                                 <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
+                                                @if (Context.User.IsInRole("1") == true)
+                                                {
+                                                    
+                                                        <a asp-action="Compra" asp-controller="Deportes" asp-route-id="@producto.IdProducto" class="btn btn-warning pt-2 mt-2">Modificar</a>
+                                                    
+                                                   <form method="post" >
+                                                        <a asp-action="EliminarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-danger pt-2 mt-2">Eliminar</a>
+                                                    </form>
+                                                       
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 }
+                                <div>
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item list-group-item-warning">
+                                            <a asp-controller="Deportes"
+                                               asp-action="Index"
+                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] - 6)">
+                                                atras
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item list-group-item-warning">
+                                            <a asp-controller="Deportes"
+                                               asp-action="Index"
+                                               asp-route-posicion="@( (int)ViewData["POSICIONACTUAL"] + 6)">
+                                                >>>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

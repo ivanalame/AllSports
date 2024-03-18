@@ -4,6 +4,7 @@ using AllSports.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 #region Views and procedures
 //create view  V_PRODUCTOS
@@ -91,6 +92,30 @@ namespace AllSports.Repositories
             return productos;
         }
 
+        //ELIMINAR UN PRODUCTO
+        public async Task DeleteProducto(int idproducto)
+        {
+            Producto producto = await this.GetProductoByIdAsync(idproducto);
+            this.context.Productos.Remove(producto);
+            await this.context.SaveChangesAsync();
+        }
+
+        //MODIFICAR UN PRODUCTO
+        public async Task ModificarProducto(int idproducto,string nombre, int precio, string marca, string descripcion, int talla, string imagen, int idcategoria, string desclarga)
+        {
+            Producto producto = await this.GetProductoByIdAsync(idproducto);
+
+            producto.Nombre = nombre;
+            producto.Precio = precio;
+            producto.Marca = marca;
+            producto.Descripcion = descripcion;
+            producto.Talla = talla;
+            producto.Imagen = imagen;
+            producto.IdCategoriaProducto = idcategoria;
+            producto.Descripcion_Larga = desclarga;
+
+            await this.context.SaveChangesAsync();
+        }
         //INSERT PRODUCTO
         public async Task InsertProducto(string nombre, int precio,string marca, string descripcion, int talla, string imagen, int idcategoria,string desclarga)
         {
@@ -177,6 +202,8 @@ namespace AllSports.Repositories
 
             await this.context.SaveChangesAsync();
         }
+
+
         //Get Productos de una categoria
 
         public List<Producto> GetProductosById(int IdCategoriaProducto)

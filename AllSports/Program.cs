@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews(options=> options.EnableEndpointRouting
 builder.Services.AddSession();
 builder.Services.AddSingleton<HelperPathProvider>();
 builder.Services.AddSingleton<HelperMails>();
+builder.Services.AddSingleton<HelperUploadFiles>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAllSports");
 //RESOLVEMOS EL REPOSITORY CON TRANSIENT
 builder.Services.AddTransient<RepositoryDeportes>();

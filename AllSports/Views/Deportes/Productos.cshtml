@@ -86,7 +86,16 @@
                                                 }
                                             }
                                             <a asp-action="Compra" asp-controller="Deportes" asp-route-IdProducto="@producto.IdProducto" class="btn btn-success pt-2 mt-2">Comprar</a>
-                                        </div>
+                                            @if (Context.User.IsInRole("1") == true)
+                                            {
+
+                                                <a asp-action="ModificarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-warning pt-2 mt-2">Modificar</a>
+
+                                              
+                                                    <a asp-action="EliminarProducto" asp-controller="Deportes" asp-route-idproducto="@producto.IdProducto" class="btn btn-danger pt-2 mt-2">Eliminar</a>
+                                              
+                                            }
+                                            </div>
                                     </div>
                                 </div>
                             }
