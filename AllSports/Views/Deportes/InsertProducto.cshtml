@@ -13,42 +13,36 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh; /* Esto asegura que el contenedor ocupe toda la altura de la pantalla */
+        height: 100vh; 
     }
 </style>
 
-<h1>InsertProducto</h1>
-
-<h4>Producto</h4>
-<hr />
+<h1 class="text-center">Inserta un nuevo producto</h1>
 <div class="row mb-5 center-container">
     <div class="col-md-4">
         <form asp-action="InsertProducto" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" />
-            </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Precio" class="control-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Marca" class="control-label"></label>
                 <input asp-for="Marca" class="form-control" />
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Descripcion" class="control-label"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Talla" class="control-label"></label>
                 <select asp-for="Talla" class="form-control">
                     <option value="">Seleccione una talla</option>
@@ -60,11 +54,11 @@
                 <span asp-validation-for="Talla" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label  class="control-label"></label>
-                <input  type="file" name="fichero" class="form-control" />
+            <div class="form-group mb-3">
+                <label class="control-label"></label>
+                <input type="file" name="fichero" class="form-control" />
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="IdCategoriaProducto" class="control-label"></label>
                 <select asp-for="IdCategoriaProducto" class="form-control">
                     <option value="">Seleccione una categoría</option>
@@ -76,7 +70,7 @@
                 <span asp-validation-for="IdCategoriaProducto" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Descripcion_Larga" class="control-label"></label>
                 <input asp-for="Descripcion_Larga" class="form-control" />
                 <span asp-validation-for="Descripcion_Larga" class="text-danger"></span>
@@ -87,10 +81,6 @@
         </form>
     </div>
 </div>
-
-<br />
-<br />
-
 
 
 @section Scripts {

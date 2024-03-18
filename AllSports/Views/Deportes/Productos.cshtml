@@ -2,8 +2,6 @@
 @{
     List<int> idsproductos = Context.Session.GetObject<List<int>>("IDSPRODUCTOS");
 }
-
-<h1>CATEGORIAS PRODUCTOS</h1>
 <style>
 
     .wobble-horizontal-top .card-img-top {
@@ -62,7 +60,6 @@
                     <label for="deporteSelect" class="form-label">Productos:</label>
                     <div class="container">
                         <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <!-- Utilizamos row-cols-md-3 para que haya una fila de 3 columnas en dispositivos medianos (md) y una columna en dispositivos pequeños -->
                             @foreach (var producto in Model)
                             {
                                 <div class="col mb-4 product-card">

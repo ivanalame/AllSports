@@ -11,6 +11,7 @@
         registros = (int)ViewData["REGISTROS"];
     }
 }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <style>
     .title-text {
@@ -68,15 +69,23 @@
 
 <h2 style="color: #007F7F"> @ViewData["MENSAJE"]</h2>
 
+<div class="text-center">
+    <h1 style="font-family: 'Pacifico', cursive; font-size: 3rem; color: #2D31C4;">All<span style="color: #FF5733;">Sports</span></h1>
+</div>
+
 <div class="container">
+    <div class="alert alert-warning mt-3" role="alert">
+        <p class="mb-0">Buscador Inhabilitado Temporalmente</p>
+    </div>
     <div class="row">
         <div class="col">
-            <input type="text" id="searchInput" class="form-control" placeholder="Buscar producto...">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar producto..." disabled>
         </div>
         <div class="col-auto">
-            <button class="btn btn-primary" onclick="searchProducts()">Buscar</button>
+            <button class="btn btn-primary" onclick="searchProducts()" disabled>Buscar</button>
         </div>
     </div>
+
     <div class="row">
         <div class="col">
             <div id="searchResults"></div>
@@ -99,6 +108,14 @@
 
     </div>
 </div>
+
+<div class="text-center mt-3 mb-3">
+    <h5>Productos</h5>
+    <a href="#productos-container" class="btn btn-primary">
+        <i class="fas fa-arrow-down"></i> 
+    </a>
+</div>
+
 
 <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">

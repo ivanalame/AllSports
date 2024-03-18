@@ -78,8 +78,9 @@ namespace AllSports.Controllers
         }
         public async Task<IActionResult> EliminarProducto(int idproducto)
         {
+            Producto producto = await this.repo.GetProductoByIdAsync(idproducto);
             await this.repo.DeleteProducto(idproducto);
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Productos", new { IdCategoriaProducto = producto.IdCategoriaProducto });
         }
 
         public async Task<IActionResult> ModificarProducto(int idproducto)
@@ -334,7 +335,8 @@ namespace AllSports.Controllers
             }
             var categorias = this.repo.GetAllCategorias();
             ViewData["CATEGORIAS"] = categorias;
-            return View();
+            return RedirectToAction("Productos", new { IdCategoriaProducto = producto.IdCategoriaProducto });
+
         }
         #endregion
 

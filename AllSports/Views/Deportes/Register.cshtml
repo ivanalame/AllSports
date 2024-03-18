@@ -7,12 +7,18 @@
     }
 
     .container {
-        max-width: 500px;
+        max-width: 800px;
         margin: 50px auto;
         background: #fff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex; /* Usamos flexbox para organizar los elementos */
+    }
+
+    .left-column,
+    .right-column {
+        flex: 1; /* Ambos ocuparán el mismo espacio */
     }
 
     h2 {
@@ -49,12 +55,23 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+    .image-container {
+        text-align: center;
+    }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
 </style>
 
-    <div class="container">
+<div class="container">
+    <div class="left-column">
         <h2>Registro</h2>
-    @ViewData["MENSAJE"]
-        <form  method="post">
+        @ViewData["MENSAJE"]
+        <form method="post">
             @Html.AntiForgeryToken()
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -71,7 +88,14 @@
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
 
-            <input type="hidden" name="idRole" value="2"/>
+            <input type="hidden" name="idRole" value="2" />
             <input type="submit" value="Registrarse">
         </form>
     </div>
+
+    <div class="right-column">
+        <div class="image-container">
+            <img src="~/Images/DEPORTES.JPG" class="img-fluid" alt="Imagen de deportes">
+        </div>
+    </div>
+</div>

@@ -83,7 +83,7 @@ namespace AllSports.Controllers
         {
             await HttpContext.SignOutAsync
                 (CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Deportes");
         }
 
         public IActionResult ErrorAcceso()
